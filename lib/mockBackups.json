@@ -1,0 +1,46 @@
+[
+  {
+    "id": "backup-001",
+    "device": "Core-Router-01",
+    "deviceIp": "192.168.1.1",
+    "type": "Configuration",
+    "status": "completed",
+    "size": "2.4 MB",
+    "created": "2024-01-15 14:30:00",
+    "duration": "45s",
+    "version": "v1.2.3"
+  },
+  {
+    "id": "backup-002",
+    "device": "Distribution-SW-01",
+    "deviceIp": "192.168.1.10",
+    "type": "Full System",
+    "status": "completed",
+    "size": "15.7 MB",
+    "created": "2024-01-15 14:25:00",
+    "duration": "2m 15s",
+    "version": "v2.1.0"
+  },
+  {
+    "id": "backup-003",
+    "device": "Access-SW-05",
+    "deviceIp": "192.168.1.25",
+    "type": "Configuration",
+    "status": "failed",
+    "size": "-",
+    "created": "2024-01-15 14:20:00",
+    "duration": "30s",
+    "version": "-"
+  },
+  {
+    "id": "backup-004",
+    "device": "WiFi-Controller-01",
+    "deviceIp": "192.168.1.50",
+    "type": "Configuration",
+    "status": "running",
+    "size": "-",
+    "created": "2024-01-15 14:35:00",
+    "duration": "1m 20s",
+    "version": "-"
+  }
+]

@@ -44,6 +44,17 @@ const departmentUsageData = [
   { name: "Finance", usage: 4, cost: 200, color: "#ef4444" },
 ]
 
+// Department badge color for user list
+function departmentBadgeClass(department: string) {
+  const variants = {
+    Engineering: "bg-blue-50 text-blue-700 border border-blue-200",
+    Sales: "bg-green-50 text-green-700 border border-green-200",
+    Marketing: "bg-yellow-50 text-yellow-700 border border-yellow-200",
+    HR: "bg-purple-50 text-purple-700 border border-purple-200",
+    Finance: "bg-red-50 text-red-700 border border-red-200",
+  };
+  return variants[department as keyof typeof variants] || "bg-gray-50 text-gray-700 border border-gray-200";
+}
 const userActivityData = [
   {
     user: "john.smith@company.com",
@@ -98,72 +109,42 @@ export default function AccountingPage() {
 
         <main className="flex-1 overflow-y-auto p-6">
           <div className="space-y-6">
-            {/* Summary Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <Card className="border-border">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-muted-foreground">Total Usage</p>
-                      <p className="text-2xl font-bold">21.6 TB</p>
-                      <div className="flex items-center text-xs text-chart-1">
-                        <TrendingUp className="h-3 w-3 mr-1" />
-                        +12% this month
-                      </div>
-                    </div>
-                    <HardDrive className="h-8 w-8 text-muted-foreground" />
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="border-border">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-muted-foreground">Active Users</p>
-                      <p className="text-2xl font-bold">247</p>
-                      <div className="flex items-center text-xs text-chart-2">
-                        <Users className="h-3 w-3 mr-1" />
-                        89% of total users
-                      </div>
-                    </div>
-                    <Users className="h-8 w-8 text-muted-foreground" />
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="border-border">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-muted-foreground">Total Sessions</p>
-                      <p className="text-2xl font-bold">1,847</p>
-                      <div className="flex items-center text-xs text-chart-3">
-                        <Activity className="h-3 w-3 mr-1" />
-                        Avg: 7.5 per user
-                      </div>
-                    </div>
-                    <Activity className="h-8 w-8 text-muted-foreground" />
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="border-border">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-muted-foreground">Estimated Cost</p>
-                      <p className="text-2xl font-bold">$8,450</p>
-                      <div className="flex items-center text-xs text-chart-4">
-                        <Calendar className="h-3 w-3 mr-1" />
-                        This month
-                      </div>
-                    </div>
-                    <TrendingUp className="h-8 w-8 text-muted-foreground" />
-                  </div>
-                </CardContent>
-              </Card>
+            {/* Compact Summary Info Bars */}
+            <div className="flex flex-col md:flex-row gap-4">
+              <div className="flex items-center bg-blue-50 border border-blue-200 rounded-lg px-4 py-2 h-14 flex-1 min-w-0">
+                <HardDrive className="h-6 w-6 text-blue-500 mr-3" />
+                <div className="flex flex-col justify-center min-w-0">
+                  <span className="text-xs text-blue-700 font-medium leading-tight truncate">Total Usage</span>
+                  <span className="text-lg font-bold text-blue-900 leading-tight truncate">21.6 TB</span>
+                  <span className="flex items-center text-xs text-blue-700"><TrendingUp className="h-3 w-3 mr-1" />+12% this month</span>
+                </div>
+              </div>
+              <div className="flex items-center bg-green-50 border border-green-200 rounded-lg px-4 py-2 h-14 flex-1 min-w-0">
+                <Users className="h-6 w-6 text-green-500 mr-3" />
+                <div className="flex flex-col justify-center min-w-0">
+                  <span className="text-xs text-green-700 font-medium leading-tight truncate">Active Users</span>
+                  <span className="text-lg font-bold text-green-900 leading-tight truncate">247</span>
+                  <span className="flex items-center text-xs text-green-700"><Users className="h-3 w-3 mr-1" />89% of total users</span>
+                </div>
+              </div>
+              <div className="flex items-center bg-yellow-50 border border-yellow-200 rounded-lg px-4 py-2 h-14 flex-1 min-w-0">
+                <Activity className="h-6 w-6 text-yellow-500 mr-3" />
+                <div className="flex flex-col justify-center min-w-0">
+                  <span className="text-xs text-yellow-700 font-medium leading-tight truncate">Total Sessions</span>
+                  <span className="text-lg font-bold text-yellow-900 leading-tight truncate">1,847</span>
+                  <span className="flex items-center text-xs text-yellow-700"><Activity className="h-3 w-3 mr-1" />Avg: 7.5 per user</span>
+                </div>
+              </div>
+              <div className="flex items-center bg-purple-50 border border-purple-200 rounded-lg px-4 py-2 h-14 flex-1 min-w-0">
+                <TrendingUp className="h-6 w-6 text-purple-500 mr-3" />
+                <div className="flex flex-col justify-center min-w-0">
+                  <span className="text-xs text-purple-700 font-medium leading-tight truncate">Estimated Cost</span>
+                  <span className="text-lg font-bold text-purple-900 leading-tight truncate">$8,450</span>
+                  <span className="flex items-center text-xs text-purple-700"><Calendar className="h-3 w-3 mr-1" />This month</span>
+                </div>
+              </div>
             </div>
+
 
             {/* Controls */}
             <div className="flex items-center justify-between">
@@ -351,7 +332,9 @@ export default function AccountingPage() {
                           {filteredUsers.map((user, index) => (
                             <TableRow key={index}>
                               <TableCell className="font-medium">{user.user}</TableCell>
-                              <TableCell>{user.department}</TableCell>
+                              <TableCell>
+                                <span className={`px-2 py-1 rounded text-xs font-medium ${departmentBadgeClass(user.department)}`}>{user.department}</span>
+                              </TableCell>
                               <TableCell>{user.sessions}</TableCell>
                               <TableCell className="font-mono text-sm">{user.duration}</TableCell>
                               <TableCell className="font-mono text-sm">{user.bandwidth}</TableCell>

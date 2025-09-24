@@ -1,14 +1,33 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Header } from "@/components/layout/header"
-import { Sidebar } from "@/components/layout/sidebar"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState } from "react";
+import { Header } from "@/components/layout/header";
+import { Sidebar } from "@/components/layout/sidebar";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -17,8 +36,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,7 +45,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   Search,
   Plus,
@@ -41,133 +60,98 @@ import {
   Download,
   RefreshCw,
   Settings,
-} from "lucide-react"
+} from "lucide-react";
+// Import device data from JSON
+import deviceData from '@/lib/mockDevices.json';
 
-// Mock device data
-const mockDevices = [
-  {
-    id: "dev-001",
-    name: "Core-Router-01",
-    type: "Router",
-    model: "Cisco ASR 9000",
-    ip: "192.168.1.1",
-    location: "Data Center A",
-    status: "online",
-    uptime: "127d 14h 32m",
-    lastSeen: "2024-01-15 10:30:00",
-    firmware: "17.3.04a",
-    ports: 48,
-  },
-  {
-    id: "dev-002",
-    name: "Switch-Floor-03",
-    type: "Switch",
-    model: "Juniper EX4300",
-    ip: "192.168.1.15",
-    location: "Floor 3",
-    status: "online",
-    uptime: "89d 6h 15m",
-    lastSeen: "2024-01-15 10:29:45",
-    firmware: "18.4R3-S8",
-    ports: 24,
-  },
-  {
-    id: "dev-003",
-    name: "AP-Office-12",
-    type: "Access Point",
-    model: "Aruba AP-515",
-    ip: "192.168.2.45",
-    location: "Office Wing",
-    status: "warning",
-    uptime: "45d 12h 8m",
-    lastSeen: "2024-01-15 10:25:12",
-    firmware: "8.10.0.5",
-    ports: 2,
-  },
-  {
-    id: "dev-004",
-    name: "Firewall-DMZ",
-    type: "Firewall",
-    model: "Palo Alto PA-3220",
-    ip: "192.168.0.1",
-    location: "DMZ",
-    status: "online",
-    uptime: "156d 3h 45m",
-    lastSeen: "2024-01-15 10:30:00",
-    firmware: "10.2.4-h4",
-    ports: 16,
-  },
-  {
-    id: "dev-005",
-    name: "Switch-Backup",
-    type: "Switch",
-    model: "Cisco Catalyst 9300",
-    ip: "192.168.1.25",
-    location: "Data Center B",
-    status: "offline",
-    uptime: "0d 0h 0m",
-    lastSeen: "2024-01-14 15:22:30",
-    firmware: "16.12.08",
-    ports: 48,
-  },
-]
+const deviceTypes = [
+  "All Types",
+  "Router",
+  "Switch",
+  "Access Point",
+  "Firewall",
+  "Server",
+];
+const statusTypes = ["All Status", "online", "warning", "critical", "offline"];
+const locations = [
+  "All Locations",
+  "Data Center A",
+  "Data Center B",
+  "Floor 3",
+  "Office Wing",
+  "DMZ",
+];
 
-const deviceTypes = ["All Types", "Router", "Switch", "Access Point", "Firewall", "Server"]
-const statusTypes = ["All Status", "online", "warning", "critical", "offline"]
-const locations = ["All Locations", "Data Center A", "Data Center B", "Floor 3", "Office Wing", "DMZ"]
 
 export default function InventoryPage() {
-  const [devices, setDevices] = useState(mockDevices)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [typeFilter, setTypeFilter] = useState("All Types")
-  const [statusFilter, setStatusFilter] = useState("All Status")
-  const [locationFilter, setLocationFilter] = useState("All Locations")
-  const [isAddDeviceOpen, setIsAddDeviceOpen] = useState(false)
+  const [devices, setDevices] = useState(deviceData);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [typeFilter, setTypeFilter] = useState("All Types");
+  const [statusFilter, setStatusFilter] = useState("All Status");
+  const [locationFilter, setLocationFilter] = useState("All Locations");
+  const [isAddDeviceOpen, setIsAddDeviceOpen] = useState(false);
   const [newDevice, setNewDevice] = useState({
     name: "",
     type: "",
     model: "",
     ip: "",
     location: "",
-  })
+  });
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const devicesPerPage = 10;
 
   // Filter devices based on search and filters
   const filteredDevices = devices.filter((device) => {
     const matchesSearch =
       device.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       device.ip.includes(searchTerm) ||
-      device.model.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesType = typeFilter === "All Types" || device.type === typeFilter
-    const matchesStatus = statusFilter === "All Status" || device.status === statusFilter
-    const matchesLocation = locationFilter === "All Locations" || device.location === locationFilter
+      device.model.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesType =
+      typeFilter === "All Types" || device.type === typeFilter;
+    const matchesStatus =
+      statusFilter === "All Status" || device.status === statusFilter;
+    const matchesLocation =
+      locationFilter === "All Locations" || device.location === locationFilter;
+    return matchesSearch && matchesType && matchesStatus && matchesLocation;
+  });
 
-    return matchesSearch && matchesType && matchesStatus && matchesLocation
-  })
+  // Pagination logic
+  const totalPages = Math.ceil(filteredDevices.length / devicesPerPage);
+  const paginatedDevices = filteredDevices.slice(
+    (currentPage - 1) * devicesPerPage,
+    currentPage * devicesPerPage
+  );
 
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  // Match summary color codes for status badges
   const getStatusBadge = (status: string) => {
     const variants = {
-      online: "bg-chart-1/10 text-chart-1 border-chart-1/20",
-      warning: "bg-chart-4/10 text-chart-4 border-chart-4/20",
+      online: "bg-green-50 text-green-700 border border-green-200",
+      warning: "bg-yellow-50 text-yellow-700 border border-yellow-200",
       critical: "bg-destructive/10 text-destructive border-destructive/20",
-      offline: "bg-muted text-muted-foreground border-border",
-    }
-    return variants[status as keyof typeof variants] || variants.offline
-  }
+      offline: "bg-gray-50 text-gray-700 border border-gray-200",
+    };
+    return variants[status as keyof typeof variants] || variants.offline;
+  };
 
   const getDeviceIcon = (type: string) => {
     switch (type) {
       case "Router":
-        return <Router className="h-4 w-4" />
+        return <Router className="h-4 w-4" />;
       case "Switch":
-        return <Server className="h-4 w-4" />
+        return <Server className="h-4 w-4" />;
       case "Access Point":
-        return <Wifi className="h-4 w-4" />
+        return <Wifi className="h-4 w-4" />;
       case "Firewall":
-        return <Shield className="h-4 w-4" />
+        return <Shield className="h-4 w-4" />;
       default:
-        return <Server className="h-4 w-4" />
+        return <Server className="h-4 w-4" />;
     }
-  }
+  };
 
   const handleAddDevice = () => {
     const device = {
@@ -178,81 +162,75 @@ export default function InventoryPage() {
       lastSeen: new Date().toISOString().slice(0, 19).replace("T", " "),
       firmware: "Unknown",
       ports: 24,
-    }
-    setDevices([...devices, device])
-    setNewDevice({ name: "", type: "", model: "", ip: "", location: "" })
-    setIsAddDeviceOpen(false)
-  }
+    };
+    setDevices([...devices, device]);
+    setNewDevice({ name: "", type: "", model: "", ip: "", location: "" });
+    setIsAddDeviceOpen(false);
+  };
 
   return (
     <div className="flex min-h-dvh bg-background">
-  {/* Sidebar removed: now handled by layout */}
+      {/* Sidebar removed: now handled by layout */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header title="Device Inventory" subtitle="Manage and monitor all network devices" />
+        <Header
+          title="Device Inventory"
+          subtitle="Manage and monitor all network devices"
+        />
 
         <main className="flex-1 overflow-y-auto p-6">
           <div className="space-y-6">
-            {/* Summary Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <Card className="border-border">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-muted-foreground">Total Devices</p>
-                      <p className="text-2xl font-bold">{devices.length}</p>
-                    </div>
-                    <Server className="h-8 w-8 text-muted-foreground" />
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="border-border">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-muted-foreground">Online</p>
-                      <p className="text-2xl font-bold text-chart-1">
-                        {devices.filter((d) => d.status === "online").length}
-                      </p>
-                    </div>
-                    <div className="h-8 w-8 rounded-full bg-chart-1/10 flex items-center justify-center">
-                      <div className="h-3 w-3 rounded-full bg-chart-1" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="border-border">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-muted-foreground">Warnings</p>
-                      <p className="text-2xl font-bold text-chart-4">
-                        {devices.filter((d) => d.status === "warning").length}
-                      </p>
-                    </div>
-                    <div className="h-8 w-8 rounded-full bg-chart-4/10 flex items-center justify-center">
-                      <div className="h-3 w-3 rounded-full bg-chart-4" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="border-border">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-muted-foreground">Offline</p>
-                      <p className="text-2xl font-bold text-muted-foreground">
-                        {devices.filter((d) => d.status === "offline").length}
-                      </p>
-                    </div>
-                    <div className="h-8 w-8 rounded-full bg-muted/10 flex items-center justify-center">
-                      <div className="h-3 w-3 rounded-full bg-muted-foreground" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+            {/* Compact Summary Info Bars */}
+            <div className="flex flex-col md:flex-row gap-4">
+              <div className="flex items-center bg-blue-50 border border-blue-200 rounded-lg px-4 py-2 h-14 flex-1 min-w-0">
+                <Server className="h-6 w-6 text-blue-500 mr-3" />
+                <div className="flex flex-col justify-center min-w-0">
+                  <span className="text-xs text-blue-700 font-medium leading-tight truncate">
+                    Total Devices
+                  </span>
+                  <span className="text-lg font-bold text-blue-900 leading-tight truncate">
+                    {devices.length}
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center bg-green-50 border border-green-200 rounded-lg px-4 py-2 h-14 flex-1 min-w-0">
+                <div className="h-6 w-6 rounded-full bg-chart-1/10 flex items-center justify-center mr-3">
+                  <div className="h-3 w-3 rounded-full bg-chart-1" />
+                </div>
+                <div className="flex flex-col justify-center min-w-0">
+                  <span className="text-xs text-green-700 font-medium leading-tight truncate">
+                    Online
+                  </span>
+                  <span className="text-lg font-bold text-green-900 leading-tight truncate">
+                    {devices.filter((d) => d.status === "online").length}
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center bg-yellow-50 border border-yellow-200 rounded-lg px-4 py-2 h-14 flex-1 min-w-0">
+                <div className="h-6 w-6 rounded-full bg-chart-4/10 flex items-center justify-center mr-3">
+                  <div className="h-3 w-3 rounded-full bg-chart-4" />
+                </div>
+                <div className="flex flex-col justify-center min-w-0">
+                  <span className="text-xs text-yellow-700 font-medium leading-tight truncate">
+                    Warnings
+                  </span>
+                  <span className="text-lg font-bold text-yellow-900 leading-tight truncate">
+                    {devices.filter((d) => d.status === "warning").length}
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 h-14 flex-1 min-w-0">
+                <div className="h-6 w-6 rounded-full bg-muted/10 flex items-center justify-center mr-3">
+                  <div className="h-3 w-3 rounded-full bg-muted-foreground" />
+                </div>
+                <div className="flex flex-col justify-center min-w-0">
+                  <span className="text-xs text-gray-700 font-medium leading-tight truncate">
+                    Offline
+                  </span>
+                  <span className="text-lg font-bold text-gray-900 leading-tight truncate">
+                    {devices.filter((d) => d.status === "offline").length}
+                  </span>
+                </div>
+              </div>
             </div>
 
             {/* Filters and Actions */}
@@ -261,7 +239,9 @@ export default function InventoryPage() {
                 <div className="flex items-center justify-between">
                   <div>
                     <CardTitle>Device Management</CardTitle>
-                    <CardDescription>Search, filter, and manage network devices</CardDescription>
+                    <CardDescription>
+                      Search, filter, and manage network devices
+                    </CardDescription>
                   </div>
                   <div className="flex items-center gap-2">
                     <Button variant="outline" size="sm">
@@ -272,7 +252,10 @@ export default function InventoryPage() {
                       <RefreshCw className="h-4 w-4 mr-2" />
                       Refresh
                     </Button>
-                    <Dialog open={isAddDeviceOpen} onOpenChange={setIsAddDeviceOpen}>
+                    <Dialog
+                      open={isAddDeviceOpen}
+                      onOpenChange={setIsAddDeviceOpen}
+                    >
                       <DialogTrigger asChild>
                         <Button size="sm">
                           <Plus className="h-4 w-4 mr-2" />
@@ -282,7 +265,9 @@ export default function InventoryPage() {
                       <DialogContent className="sm:max-w-[425px]">
                         <DialogHeader>
                           <DialogTitle>Add New Device</DialogTitle>
-                          <DialogDescription>Enter the details for the new network device.</DialogDescription>
+                          <DialogDescription>
+                            Enter the details for the new network device.
+                          </DialogDescription>
                         </DialogHeader>
                         <div className="grid gap-4 py-4">
                           <div className="grid grid-cols-4 items-center gap-4">
@@ -292,7 +277,12 @@ export default function InventoryPage() {
                             <Input
                               id="name"
                               value={newDevice.name}
-                              onChange={(e) => setNewDevice({ ...newDevice, name: e.target.value })}
+                              onChange={(e) =>
+                                setNewDevice({
+                                  ...newDevice,
+                                  name: e.target.value,
+                                })
+                              }
                               className="col-span-3"
                             />
                           </div>
@@ -302,7 +292,9 @@ export default function InventoryPage() {
                             </Label>
                             <Select
                               value={newDevice.type}
-                              onValueChange={(value) => setNewDevice({ ...newDevice, type: value })}
+                              onValueChange={(value) =>
+                                setNewDevice({ ...newDevice, type: value })
+                              }
                             >
                               <SelectTrigger className="col-span-3">
                                 <SelectValue placeholder="Select type" />
@@ -310,8 +302,12 @@ export default function InventoryPage() {
                               <SelectContent>
                                 <SelectItem value="Router">Router</SelectItem>
                                 <SelectItem value="Switch">Switch</SelectItem>
-                                <SelectItem value="Access Point">Access Point</SelectItem>
-                                <SelectItem value="Firewall">Firewall</SelectItem>
+                                <SelectItem value="Access Point">
+                                  Access Point
+                                </SelectItem>
+                                <SelectItem value="Firewall">
+                                  Firewall
+                                </SelectItem>
                               </SelectContent>
                             </Select>
                           </div>
@@ -322,7 +318,12 @@ export default function InventoryPage() {
                             <Input
                               id="model"
                               value={newDevice.model}
-                              onChange={(e) => setNewDevice({ ...newDevice, model: e.target.value })}
+                              onChange={(e) =>
+                                setNewDevice({
+                                  ...newDevice,
+                                  model: e.target.value,
+                                })
+                              }
                               className="col-span-3"
                             />
                           </div>
@@ -333,7 +334,12 @@ export default function InventoryPage() {
                             <Input
                               id="ip"
                               value={newDevice.ip}
-                              onChange={(e) => setNewDevice({ ...newDevice, ip: e.target.value })}
+                              onChange={(e) =>
+                                setNewDevice({
+                                  ...newDevice,
+                                  ip: e.target.value,
+                                })
+                              }
                               className="col-span-3"
                             />
                           </div>
@@ -344,7 +350,12 @@ export default function InventoryPage() {
                             <Input
                               id="location"
                               value={newDevice.location}
-                              onChange={(e) => setNewDevice({ ...newDevice, location: e.target.value })}
+                              onChange={(e) =>
+                                setNewDevice({
+                                  ...newDevice,
+                                  location: e.target.value,
+                                })
+                              }
                               className="col-span-3"
                             />
                           </div>
@@ -394,7 +405,10 @@ export default function InventoryPage() {
                       ))}
                     </SelectContent>
                   </Select>
-                  <Select value={locationFilter} onValueChange={setLocationFilter}>
+                  <Select
+                    value={locationFilter}
+                    onValueChange={setLocationFilter}
+                  >
                     <SelectTrigger className="w-full sm:w-[180px]">
                       <SelectValue />
                     </SelectTrigger>
@@ -424,25 +438,43 @@ export default function InventoryPage() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {filteredDevices.map((device) => (
+                      {paginatedDevices.map((device) => (
                         <TableRow key={device.id}>
                           <TableCell>
                             <div className="flex items-center gap-3">
-                              <div className="p-2 bg-muted/50 rounded-lg">{getDeviceIcon(device.type)}</div>
+                              <div className="p-2 bg-muted/50 rounded-lg">
+                                {getDeviceIcon(device.type)}
+                              </div>
                               <div>
                                 <div className="font-medium">{device.name}</div>
-                                <div className="text-sm text-muted-foreground">{device.model}</div>
+                                <div className="text-sm text-muted-foreground">
+                                  {device.model}
+                                </div>
                               </div>
                             </div>
                           </TableCell>
                           <TableCell>{device.type}</TableCell>
-                          <TableCell className="font-mono text-sm">{device.ip}</TableCell>
+                          <TableCell className="font-mono text-sm">
+                            {device.ip}
+                          </TableCell>
                           <TableCell>{device.location}</TableCell>
                           <TableCell>
-                            <Badge className={getStatusBadge(device.status)}>{device.status}</Badge>
+                            <Badge
+                              className={getStatusBadge(device.status)}
+                              style={{
+                                textTransform: "capitalize",
+                                fontWeight: 500,
+                              }}
+                            >
+                              {device.status}
+                            </Badge>
                           </TableCell>
-                          <TableCell className="font-mono text-sm">{device.uptime}</TableCell>
-                          <TableCell className="text-sm text-muted-foreground">{device.lastSeen}</TableCell>
+                          <TableCell className="font-mono text-sm">
+                            {device.uptime}
+                          </TableCell>
+                          <TableCell className="text-sm text-muted-foreground">
+                            {device.lastSeen}
+                          </TableCell>
                           <TableCell className="text-right">
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
@@ -452,7 +484,11 @@ export default function InventoryPage() {
                               </DropdownMenuTrigger>
                               <DropdownMenuContent align="end">
                                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                <DropdownMenuItem onClick={() => (window.location.href = `/inventory/${device.id}`)}>
+                                <DropdownMenuItem
+                                  onClick={() =>
+                                    (window.location.href = `/inventory/${device.id}`)
+                                  }
+                                >
                                   <Eye className="mr-2 h-4 w-4" />
                                   View Details
                                 </DropdownMenuItem>
@@ -484,14 +520,47 @@ export default function InventoryPage() {
 
                 {filteredDevices.length === 0 && (
                   <div className="text-center py-8">
-                    <p className="text-muted-foreground">No devices found matching your criteria.</p>
+                    <p className="text-muted-foreground">
+                      No devices found matching your criteria.
+                    </p>
                   </div>
                 )}
+              {/* Pagination Controls */}
+              {filteredDevices.length > devicesPerPage && (
+                <div className="flex justify-center items-center gap-2 py-4">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                  >
+                    Previous
+                  </Button>
+                  {Array.from({ length: totalPages }, (_, i) => (
+                    <Button
+                      key={i + 1}
+                      variant={currentPage === i + 1 ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => handlePageChange(i + 1)}
+                    >
+                      {i + 1}
+                    </Button>
+                  ))}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                  >
+                    Next
+                  </Button>
+                </div>
+              )}
               </CardContent>
             </Card>
           </div>
         </main>
       </div>
     </div>
-  )
+  );
 }

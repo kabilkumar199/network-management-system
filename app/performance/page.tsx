@@ -1,12 +1,24 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Header } from "@/components/layout/header"
-import { Sidebar } from "@/components/layout/sidebar"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useState } from "react";
+import { Header } from "@/components/layout/header";
+import { Sidebar } from "@/components/layout/sidebar";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   LineChart,
   Line,
@@ -22,8 +34,15 @@ import {
   PieChart,
   Pie,
   Cell,
-} from "recharts"
-import { Activity, Network, HardDrive, Zap, TrendingUp, TrendingDown } from "lucide-react"
+} from "recharts";
+import {
+  Activity,
+  Network,
+  HardDrive,
+  Zap,
+  TrendingUp,
+  TrendingDown,
+} from "lucide-react";
 
 // Mock performance data
 const networkTrafficData = [
@@ -34,7 +53,7 @@ const networkTrafficData = [
   { time: "16:00", inbound: 92, outbound: 78, total: 170 },
   { time: "20:00", inbound: 68, outbound: 55, total: 123 },
   { time: "24:00", inbound: 45, outbound: 32, total: 77 },
-]
+];
 
 const devicePerformanceData = [
   { device: "Core-Router-01", cpu: 34, memory: 67, bandwidth: 45 },
@@ -42,14 +61,14 @@ const devicePerformanceData = [
   { device: "AP-Office-12", cpu: 15, memory: 34, bandwidth: 22 },
   { device: "Firewall-DMZ", cpu: 42, memory: 78, bandwidth: 56 },
   { device: "Switch-Backup", cpu: 8, memory: 25, bandwidth: 12 },
-]
+];
 
 const bandwidthUtilizationData = [
   { name: "Core Network", value: 65, color: "#3b82f6" },
   { name: "Access Layer", value: 45, color: "#10b981" },
   { name: "DMZ", value: 78, color: "#f59e0b" },
   { name: "Guest Network", value: 23, color: "#8b5cf6" },
-]
+];
 
 const responseTimeData = [
   { time: "00:00", ping: 1.2, http: 45, dns: 8 },
@@ -59,17 +78,20 @@ const responseTimeData = [
   { time: "16:00", ping: 1.9, http: 72, dns: 13 },
   { time: "20:00", ping: 1.4, http: 52, dns: 9 },
   { time: "24:00", ping: 1.2, http: 45, dns: 8 },
-]
+];
 
 export default function PerformancePage() {
-  const [timeRange, setTimeRange] = useState("24h")
-  const [selectedMetric, setSelectedMetric] = useState("all")
+  const [timeRange, setTimeRange] = useState("24h");
+  const [selectedMetric, setSelectedMetric] = useState("all");
 
   return (
     <div className="flex h-screen bg-background">
-  {/* Sidebar removed: now handled by layout */}
+      {/* Sidebar removed: now handled by layout */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header title="Performance Monitoring" subtitle="Real-time network performance metrics and analytics" />
+        <Header
+          title="Performance Monitoring"
+          subtitle="Real-time network performance metrics and analytics"
+        />
 
         <main className="flex-1 overflow-y-auto p-6">
           <div className="space-y-6">
@@ -79,7 +101,9 @@ export default function PerformancePage() {
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-muted-foreground">Network Utilization</p>
+                      <p className="text-sm text-muted-foreground">
+                        Network Utilization
+                      </p>
                       <p className="text-2xl font-bold">67%</p>
                       <div className="flex items-center text-xs text-chart-1">
                         <TrendingUp className="h-3 w-3 mr-1" />
@@ -95,7 +119,9 @@ export default function PerformancePage() {
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-muted-foreground">Avg Response Time</p>
+                      <p className="text-sm text-muted-foreground">
+                        Avg Response Time
+                      </p>
                       <p className="text-2xl font-bold">1.4ms</p>
                       <div className="flex items-center text-xs text-chart-1">
                         <TrendingDown className="h-3 w-3 mr-1" />
@@ -111,7 +137,9 @@ export default function PerformancePage() {
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-muted-foreground">Throughput</p>
+                      <p className="text-sm text-muted-foreground">
+                        Throughput
+                      </p>
                       <p className="text-2xl font-bold">2.4 Gbps</p>
                       <div className="flex items-center text-xs text-chart-2">
                         <TrendingUp className="h-3 w-3 mr-1" />
@@ -127,7 +155,9 @@ export default function PerformancePage() {
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-muted-foreground">Packet Loss</p>
+                      <p className="text-sm text-muted-foreground">
+                        Packet Loss
+                      </p>
                       <p className="text-2xl font-bold">0.02%</p>
                       <div className="flex items-center text-xs text-chart-1">
                         <TrendingDown className="h-3 w-3 mr-1" />
@@ -154,7 +184,10 @@ export default function PerformancePage() {
                     <SelectItem value="30d">Last 30 Days</SelectItem>
                   </SelectContent>
                 </Select>
-                <Select value={selectedMetric} onValueChange={setSelectedMetric}>
+                <Select
+                  value={selectedMetric}
+                  onValueChange={setSelectedMetric}
+                >
                   <SelectTrigger className="w-[180px]">
                     <SelectValue />
                   </SelectTrigger>
@@ -184,13 +217,21 @@ export default function PerformancePage() {
                 <Card className="border-border">
                   <CardHeader>
                     <CardTitle>Network Traffic Overview</CardTitle>
-                    <CardDescription>Inbound and outbound traffic patterns over time</CardDescription>
+                    <CardDescription>
+                      Inbound and outbound traffic patterns over time
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <ResponsiveContainer width="100%" height={400}>
                       <AreaChart data={networkTrafficData}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                        <XAxis dataKey="time" stroke="hsl(var(--muted-foreground))" />
+                        <CartesianGrid
+                          strokeDasharray="3 3"
+                          stroke="hsl(var(--border))"
+                        />
+                        <XAxis
+                          dataKey="time"
+                          stroke="hsl(var(--muted-foreground))"
+                        />
                         <YAxis stroke="hsl(var(--muted-foreground))" />
                         <Tooltip
                           contentStyle={{
@@ -226,13 +267,21 @@ export default function PerformancePage() {
                 <Card className="border-border">
                   <CardHeader>
                     <CardTitle>Device Performance Comparison</CardTitle>
-                    <CardDescription>CPU, memory, and bandwidth utilization by device</CardDescription>
+                    <CardDescription>
+                      CPU, memory, and bandwidth utilization by device
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <ResponsiveContainer width="100%" height={400}>
                       <BarChart data={devicePerformanceData}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                        <XAxis dataKey="device" stroke="hsl(var(--muted-foreground))" />
+                        <CartesianGrid
+                          strokeDasharray="3 3"
+                          stroke="hsl(var(--border))"
+                        />
+                        <XAxis
+                          dataKey="device"
+                          stroke="hsl(var(--muted-foreground))"
+                        />
                         <YAxis stroke="hsl(var(--muted-foreground))" />
                         <Tooltip
                           contentStyle={{
@@ -249,15 +298,21 @@ export default function PerformancePage() {
                     <div className="flex justify-center gap-6 mt-4">
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-chart-1" />
-                        <span className="text-sm text-muted-foreground">CPU Usage (%)</span>
+                        <span className="text-sm text-muted-foreground">
+                          CPU Usage (%)
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-chart-2" />
-                        <span className="text-sm text-muted-foreground">Memory Usage (%)</span>
+                        <span className="text-sm text-muted-foreground">
+                          Memory Usage (%)
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-chart-3" />
-                        <span className="text-sm text-muted-foreground">Bandwidth Usage (%)</span>
+                        <span className="text-sm text-muted-foreground">
+                          Bandwidth Usage (%)
+                        </span>
                       </div>
                     </div>
                   </CardContent>
@@ -270,7 +325,9 @@ export default function PerformancePage() {
                   <Card className="border-border">
                     <CardHeader>
                       <CardTitle>Bandwidth Utilization by Segment</CardTitle>
-                      <CardDescription>Current bandwidth usage across network segments</CardDescription>
+                      <CardDescription>
+                        Current bandwidth usage across network segments
+                      </CardDescription>
                     </CardHeader>
                     <CardContent>
                       <ResponsiveContainer width="100%" height={300}>
@@ -293,10 +350,20 @@ export default function PerformancePage() {
                       </ResponsiveContainer>
                       <div className="grid grid-cols-2 gap-4 mt-4">
                         {bandwidthUtilizationData.map((item) => (
-                          <div key={item.name} className="flex items-center gap-2">
-                            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }} />
-                            <span className="text-sm text-muted-foreground">{item.name}</span>
-                            <span className="text-sm font-medium ml-auto">{item.value}%</span>
+                          <div
+                            key={item.name}
+                            className="flex items-center gap-2"
+                          >
+                            <div
+                              className="w-3 h-3 rounded-full"
+                              style={{ backgroundColor: item.color }}
+                            />
+                            <span className="text-sm text-muted-foreground">
+                              {item.name}
+                            </span>
+                            <span className="text-sm font-medium ml-auto">
+                              {item.value}%
+                            </span>
                           </div>
                         ))}
                       </div>
@@ -306,7 +373,9 @@ export default function PerformancePage() {
                   <Card className="border-border">
                     <CardHeader>
                       <CardTitle>Top Bandwidth Consumers</CardTitle>
-                      <CardDescription>Devices consuming the most bandwidth</CardDescription>
+                      <CardDescription>
+                        Devices consuming the most bandwidth
+                      </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div className="space-y-3">
@@ -349,13 +418,21 @@ export default function PerformancePage() {
                 <Card className="border-border">
                   <CardHeader>
                     <CardTitle>Response Time Analysis</CardTitle>
-                    <CardDescription>Network latency and response time metrics</CardDescription>
+                    <CardDescription>
+                      Network latency and response time metrics
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <ResponsiveContainer width="100%" height={400}>
                       <LineChart data={responseTimeData}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                        <XAxis dataKey="time" stroke="hsl(var(--muted-foreground))" />
+                        <CartesianGrid
+                          strokeDasharray="3 3"
+                          stroke="hsl(var(--border))"
+                        />
+                        <XAxis
+                          dataKey="time"
+                          stroke="hsl(var(--muted-foreground))"
+                        />
                         <YAxis stroke="hsl(var(--muted-foreground))" />
                         <Tooltip
                           contentStyle={{
@@ -364,23 +441,47 @@ export default function PerformancePage() {
                             borderRadius: "8px",
                           }}
                         />
-                        <Line type="monotone" dataKey="ping" stroke="hsl(var(--chart-1))" strokeWidth={2} dot={false} />
-                        <Line type="monotone" dataKey="http" stroke="hsl(var(--chart-2))" strokeWidth={2} dot={false} />
-                        <Line type="monotone" dataKey="dns" stroke="hsl(var(--chart-3))" strokeWidth={2} dot={false} />
+                        <Line
+                          type="monotone"
+                          dataKey="ping"
+                          stroke="hsl(var(--chart-1))"
+                          strokeWidth={2}
+                          dot={false}
+                        />
+                        <Line
+                          type="monotone"
+                          dataKey="http"
+                          stroke="hsl(var(--chart-2))"
+                          strokeWidth={2}
+                          dot={false}
+                        />
+                        <Line
+                          type="monotone"
+                          dataKey="dns"
+                          stroke="hsl(var(--chart-3))"
+                          strokeWidth={2}
+                          dot={false}
+                        />
                       </LineChart>
                     </ResponsiveContainer>
                     <div className="flex justify-center gap-6 mt-4">
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-chart-1" />
-                        <span className="text-sm text-muted-foreground">Ping (ms)</span>
+                        <span className="text-sm text-muted-foreground">
+                          Ping (ms)
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-chart-2" />
-                        <span className="text-sm text-muted-foreground">HTTP (ms)</span>
+                        <span className="text-sm text-muted-foreground">
+                          HTTP (ms)
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-chart-3" />
-                        <span className="text-sm text-muted-foreground">DNS (ms)</span>
+                        <span className="text-sm text-muted-foreground">
+                          DNS (ms)
+                        </span>
                       </div>
                     </div>
                   </CardContent>
@@ -391,5 +492,5 @@ export default function PerformancePage() {
         </main>
       </div>
     </div>
-  )
+  );
 }
