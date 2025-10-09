@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Link } from "react-router-dom"
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Link } from "react-router-dom";
 import {
   LayoutDashboard,
   Network,
@@ -19,10 +19,10 @@ import {
   ChevronLeft,
   ChevronRight,
   LogOut,
-} from "lucide-react"
+} from "lucide-react";
 
 interface SidebarProps {
-  className?: string
+  className?: string;
 }
 
 const navigation = [
@@ -58,20 +58,19 @@ const navigation = [
     name: "Reports",
     items: [{ name: "Accounting", href: "/accounting", icon: FileText }],
   },
-]
+];
 
 export function Sidebar({ className }: SidebarProps) {
-  const [collapsed, setCollapsed] = useState(false)
+  const [collapsed, setCollapsed] = useState(false);
 
   return (
     <div
       className={cn(
         "flex flex-col bg-sidebar border-r border-sidebar-border h-dvh md:sticky md:top-0",
         collapsed ? "w-16" : "w-64",
-        className,
+        className
       )}
     >
-      {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-sidebar-border">
         {!collapsed && (
           <div className="flex items-center gap-2">
@@ -85,7 +84,11 @@ export function Sidebar({ className }: SidebarProps) {
           onClick={() => setCollapsed(!collapsed)}
           className="text-sidebar-foreground hover:bg-sidebar-accent"
         >
-          {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+          {collapsed ? (
+            <ChevronRight className="h-4 w-4" />
+          ) : (
+            <ChevronLeft className="h-4 w-4" />
+          )}
         </Button>
       </div>
 
@@ -106,12 +109,14 @@ export function Sidebar({ className }: SidebarProps) {
                     variant="ghost"
                     className={cn(
                       "w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-                      collapsed ? "px-2" : "px-3",
+                      collapsed ? "px-2" : "px-3"
                     )}
                     asChild
                   >
                     <Link to={item.href}>
-                      <item.icon className={cn("h-4 w-4", collapsed ? "" : "mr-3")} />
+                      <item.icon
+                        className={cn("h-4 w-4", collapsed ? "" : "mr-3")}
+                      />
                       {!collapsed && item.name}
                     </Link>
                   </Button>
@@ -128,14 +133,14 @@ export function Sidebar({ className }: SidebarProps) {
           variant="ghost"
           className={cn(
             "w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent",
-            collapsed ? "px-2" : "px-3",
+            collapsed ? "px-2" : "px-3"
           )}
           onClick={() => {
             try {
-              localStorage.removeItem("username")
-              localStorage.removeItem("userRole")
+              localStorage.removeItem("username");
+              localStorage.removeItem("userRole");
             } catch {}
-            window.location.href = "/login"
+            window.location.href = "/login";
           }}
         >
           <LogOut className={cn("h-4 w-4", collapsed ? "" : "mr-3")} />
@@ -143,5 +148,5 @@ export function Sidebar({ className }: SidebarProps) {
         </Button>
       </div>
     </div>
-  )
+  );
 }

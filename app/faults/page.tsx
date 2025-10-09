@@ -1,14 +1,24 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Header } from "@/components/layout/header"
-import { Sidebar } from "@/components/layout/sidebar"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { DataTable } from "@/src/components/ui/data-table"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { DataTable } from "@/src/components/ui/data-table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,7 +26,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   Search,
   AlertTriangle,
@@ -29,7 +39,7 @@ import {
   MessageSquare,
   UserCheck,
   Filter,
-} from "lucide-react"
+} from "lucide-react";
 
 // Mock fault data
 const mockFaults = [
@@ -88,31 +98,53 @@ const mockFaults = [
     assignee: "Tom Brown",
     duration: "17h 45m",
   },
-]
+];
 
-const severityTypes = ["All Severities", "critical", "major", "minor", "warning"]
-const statusTypes = ["All Status", "open", "acknowledged", "in-progress", "resolved"]
-const categoryTypes = ["All Categories", "Interface", "Performance", "Connectivity", "Hardware", "Security"]
+const severityTypes = [
+  "All Severities",
+  "critical",
+  "major",
+  "minor",
+  "warning",
+];
+const statusTypes = [
+  "All Status",
+  "open",
+  "acknowledged",
+  "in-progress",
+  "resolved",
+];
+const categoryTypes = [
+  "All Categories",
+  "Interface",
+  "Performance",
+  "Connectivity",
+  "Hardware",
+  "Security",
+];
 
 export default function FaultsPage() {
-  const [faults, setFaults] = useState(mockFaults)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [severityFilter, setSeverityFilter] = useState("All Severities")
-  const [statusFilter, setStatusFilter] = useState("All Status")
-  const [categoryFilter, setCategoryFilter] = useState("All Categories")
+  const [faults, setFaults] = useState(mockFaults);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [severityFilter, setSeverityFilter] = useState("All Severities");
+  const [statusFilter, setStatusFilter] = useState("All Status");
+  const [categoryFilter, setCategoryFilter] = useState("All Categories");
 
   // Filter faults based on search and filters
   const filteredFaults = faults.filter((fault) => {
     const matchesSearch =
       fault.device.toLowerCase().includes(searchTerm.toLowerCase()) ||
       fault.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      fault.id.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesSeverity = severityFilter === "All Severities" || fault.severity === severityFilter
-    const matchesStatus = statusFilter === "All Status" || fault.status === statusFilter
-    const matchesCategory = categoryFilter === "All Categories" || fault.category === categoryFilter
+      fault.id.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSeverity =
+      severityFilter === "All Severities" || fault.severity === severityFilter;
+    const matchesStatus =
+      statusFilter === "All Status" || fault.status === statusFilter;
+    const matchesCategory =
+      categoryFilter === "All Categories" || fault.category === categoryFilter;
 
-    return matchesSearch && matchesSeverity && matchesStatus && matchesCategory
-  })
+    return matchesSearch && matchesSeverity && matchesStatus && matchesCategory;
+  });
 
   const getSeverityBadge = (severity: string) => {
     const variants = {
@@ -120,9 +152,9 @@ export default function FaultsPage() {
       major: "bg-orange-500/10 text-orange-500 border-orange-500/20",
       minor: "bg-chart-4/10 text-chart-4 border-chart-4/20",
       warning: "bg-yellow-500/10 text-yellow-500 border-yellow-500/20",
-    }
-    return variants[severity as keyof typeof variants] || variants.minor
-  }
+    };
+    return variants[severity as keyof typeof variants] || variants.minor;
+  };
 
   const getStatusBadge = (status: string) => {
     const variants = {
@@ -130,37 +162,37 @@ export default function FaultsPage() {
       acknowledged: "bg-chart-4/10 text-chart-4 border-chart-4/20",
       "in-progress": "bg-chart-2/10 text-chart-2 border-chart-2/20",
       resolved: "bg-chart-1/10 text-chart-1 border-chart-1/20",
-    }
-    return variants[status as keyof typeof variants] || variants.open
-  }
+    };
+    return variants[status as keyof typeof variants] || variants.open;
+  };
 
   const getSeverityIcon = (severity: string) => {
     switch (severity) {
       case "critical":
-        return <XCircle className="h-4 w-4 text-destructive" />
+        return <XCircle className="h-4 w-4 text-destructive" />;
       case "major":
-        return <AlertCircle className="h-4 w-4 text-orange-500" />
+        return <AlertCircle className="h-4 w-4 text-orange-500" />;
       case "minor":
-        return <AlertTriangle className="h-4 w-4 text-chart-4" />
+        return <AlertTriangle className="h-4 w-4 text-chart-4" />;
       case "warning":
-        return <AlertTriangle className="h-4 w-4 text-yellow-500" />
+        return <AlertTriangle className="h-4 w-4 text-yellow-500" />;
       default:
-        return <AlertTriangle className="h-4 w-4" />
+        return <AlertTriangle className="h-4 w-4" />;
     }
-  }
+  };
 
   const faultCounts = {
     total: faults.length,
     critical: faults.filter((f) => f.severity === "critical").length,
     major: faults.filter((f) => f.severity === "major").length,
     open: faults.filter((f) => f.status === "open").length,
-  }
+  };
 
   return (
     <div className="flex h-screen bg-background">
-  {/* Sidebar removed: now handled by layout */}
+      {/* Sidebar removed: now handled by layout */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header title="Fault Management" subtitle="Monitor and manage network faults and alerts" />
+       
 
         <main className="flex-1 overflow-y-auto p-6">
           <div className="space-y-6">
@@ -170,7 +202,9 @@ export default function FaultsPage() {
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-muted-foreground">Total Faults</p>
+                      <p className="text-sm text-muted-foreground">
+                        Total Faults
+                      </p>
                       <p className="text-2xl font-bold">{faultCounts.total}</p>
                     </div>
                     <AlertTriangle className="h-8 w-8 text-muted-foreground" />
@@ -183,7 +217,9 @@ export default function FaultsPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm text-muted-foreground">Critical</p>
-                      <p className="text-2xl font-bold text-destructive">{faultCounts.critical}</p>
+                      <p className="text-2xl font-bold text-destructive">
+                        {faultCounts.critical}
+                      </p>
                     </div>
                     <XCircle className="h-8 w-8 text-destructive" />
                   </div>
@@ -195,7 +231,9 @@ export default function FaultsPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm text-muted-foreground">Major</p>
-                      <p className="text-2xl font-bold text-orange-500">{faultCounts.major}</p>
+                      <p className="text-2xl font-bold text-orange-500">
+                        {faultCounts.major}
+                      </p>
                     </div>
                     <AlertCircle className="h-8 w-8 text-orange-500" />
                   </div>
@@ -207,7 +245,9 @@ export default function FaultsPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm text-muted-foreground">Open</p>
-                      <p className="text-2xl font-bold text-chart-4">{faultCounts.open}</p>
+                      <p className="text-2xl font-bold text-chart-4">
+                        {faultCounts.open}
+                      </p>
                     </div>
                     <Clock className="h-8 w-8 text-chart-4" />
                   </div>
@@ -221,7 +261,9 @@ export default function FaultsPage() {
                 <div className="flex items-center justify-between">
                   <div>
                     <CardTitle>Active Faults</CardTitle>
-                    <CardDescription>Monitor and manage network faults and alerts</CardDescription>
+                    <CardDescription>
+                      Monitor and manage network faults and alerts
+                    </CardDescription>
                   </div>
                   <Button size="sm">
                     <Filter className="h-4 w-4 mr-2" />
@@ -240,7 +282,10 @@ export default function FaultsPage() {
                       className="pl-10"
                     />
                   </div>
-                  <Select value={severityFilter} onValueChange={setSeverityFilter}>
+                  <Select
+                    value={severityFilter}
+                    onValueChange={setSeverityFilter}
+                  >
                     <SelectTrigger className="w-full sm:w-[180px]">
                       <SelectValue />
                     </SelectTrigger>
@@ -264,7 +309,10 @@ export default function FaultsPage() {
                       ))}
                     </SelectContent>
                   </Select>
-                  <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+                  <Select
+                    value={categoryFilter}
+                    onValueChange={setCategoryFilter}
+                  >
                     <SelectTrigger className="w-full sm:w-[180px]">
                       <SelectValue />
                     </SelectTrigger>
@@ -280,20 +328,51 @@ export default function FaultsPage() {
 
                 <DataTable
                   columns={[
-                    { header: "Fault ID", cell: (f: any) => <span className="font-mono text-sm">{f.id}</span> },
+                    {
+                      header: "Fault ID",
+                      cell: (f: any) => (
+                        <span className="font-mono text-sm">{f.id}</span>
+                      ),
+                    },
                     {
                       header: "Severity",
                       cell: (f: any) => (
                         <div className="flex items-center gap-2">
                           {getSeverityIcon(f.severity)}
-                          <Badge className={getSeverityBadge(f.severity)}>{f.severity}</Badge>
+                          <Badge className={getSeverityBadge(f.severity)}>
+                            {f.severity}
+                          </Badge>
                         </div>
                       ),
                     },
-                    { header: "Device", cell: (f: any) => <span className="font-medium">{f.device}</span> },
-                    { header: "Description", cell: (f: any) => <span className="max-w-xs truncate block">{f.description}</span> },
-                    { header: "Status", cell: (f: any) => <Badge className={getStatusBadge(f.status)}>{f.status}</Badge> },
-                    { header: "Duration", cell: (f: any) => <span className="font-mono text-sm">{f.duration}</span> },
+                    {
+                      header: "Device",
+                      cell: (f: any) => (
+                        <span className="font-medium">{f.device}</span>
+                      ),
+                    },
+                    {
+                      header: "Description",
+                      cell: (f: any) => (
+                        <span className="max-w-xs truncate block">
+                          {f.description}
+                        </span>
+                      ),
+                    },
+                    {
+                      header: "Status",
+                      cell: (f: any) => (
+                        <Badge className={getStatusBadge(f.status)}>
+                          {f.status}
+                        </Badge>
+                      ),
+                    },
+                    {
+                      header: "Duration",
+                      cell: (f: any) => (
+                        <span className="font-mono text-sm">{f.duration}</span>
+                      ),
+                    },
                     { header: "Assignee", cell: (f: any) => f.assignee },
                     {
                       header: "Actions",
@@ -340,5 +419,5 @@ export default function FaultsPage() {
         </main>
       </div>
     </div>
-  )
+  );
 }

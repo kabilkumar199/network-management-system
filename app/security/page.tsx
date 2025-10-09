@@ -1,17 +1,44 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Header } from "@/components/layout/header"
-import { Sidebar } from "@/components/layout/sidebar"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Progress } from "@/components/ui/progress"
-import { Search, Shield, AlertTriangle, Lock, Eye, UserX, FileText, TrendingUp, TrendingDown } from "lucide-react"
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Progress } from "@/components/ui/progress";
+import {
+  Search,
+  Shield,
+  AlertTriangle,
+  Lock,
+  Eye,
+  UserX,
+  FileText,
+  TrendingUp,
+  TrendingDown,
+} from "lucide-react";
 
 // Mock security data
 const securityEvents = [
@@ -55,7 +82,7 @@ const securityEvents = [
     status: "investigating",
     description: "Admin access from unauthorized location",
   },
-]
+];
 
 const vulnerabilities = [
   {
@@ -85,12 +112,12 @@ const vulnerabilities = [
     status: "mitigated",
     published: "2024-01-05",
   },
-]
+];
 
 export default function SecurityPage() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [severityFilter, setSeverityFilter] = useState("All Severities")
-  const [statusFilter, setStatusFilter] = useState("All Status")
+  const [searchTerm, setSearchTerm] = useState("");
+  const [severityFilter, setSeverityFilter] = useState("All Severities");
+  const [statusFilter, setStatusFilter] = useState("All Status");
 
   const getSeverityBadge = (severity: string) => {
     const variants = {
@@ -98,9 +125,9 @@ export default function SecurityPage() {
       high: "bg-orange-500/10 text-orange-500 border-orange-500/20",
       medium: "bg-chart-4/10 text-chart-4 border-chart-4/20",
       low: "bg-chart-1/10 text-chart-1 border-chart-1/20",
-    }
-    return variants[severity as keyof typeof variants] || variants.medium
-  }
+    };
+    return variants[severity as keyof typeof variants] || variants.medium;
+  };
 
   const getStatusBadge = (status: string) => {
     const variants = {
@@ -111,16 +138,14 @@ export default function SecurityPage() {
       open: "bg-destructive/10 text-destructive border-destructive/20",
       patched: "bg-chart-1/10 text-chart-1 border-chart-1/20",
       mitigated: "bg-chart-2/10 text-chart-2 border-chart-2/20",
-    }
-    return variants[status as keyof typeof variants] || variants.logged
-  }
+    };
+    return variants[status as keyof typeof variants] || variants.logged;
+  };
 
   return (
     <div className="flex h-screen bg-background">
-  {/* Sidebar removed: now handled by layout */}
+      {/* Sidebar removed: now handled by layout */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header title="Security Monitoring" subtitle="Network security events, threats, and vulnerability management" />
-
         <main className="flex-1 overflow-y-auto p-6">
           <div className="space-y-6">
             {/* Security Summary Cards */}
@@ -129,7 +154,9 @@ export default function SecurityPage() {
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-muted-foreground">Security Score</p>
+                      <p className="text-sm text-muted-foreground">
+                        Security Score
+                      </p>
                       <p className="text-2xl font-bold text-chart-1">87%</p>
                       <div className="flex items-center text-xs text-chart-1">
                         <TrendingUp className="h-3 w-3 mr-1" />
@@ -145,7 +172,9 @@ export default function SecurityPage() {
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-muted-foreground">Threats Blocked</p>
+                      <p className="text-sm text-muted-foreground">
+                        Threats Blocked
+                      </p>
                       <p className="text-2xl font-bold">1,247</p>
                       <div className="flex items-center text-xs text-chart-2">
                         <TrendingDown className="h-3 w-3 mr-1" />
@@ -161,7 +190,9 @@ export default function SecurityPage() {
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-muted-foreground">Active Vulnerabilities</p>
+                      <p className="text-sm text-muted-foreground">
+                        Active Vulnerabilities
+                      </p>
                       <p className="text-2xl font-bold text-destructive">3</p>
                       <div className="flex items-center text-xs text-muted-foreground">
                         <AlertTriangle className="h-3 w-3 mr-1" />1 critical
@@ -176,7 +207,9 @@ export default function SecurityPage() {
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-muted-foreground">Compliance</p>
+                      <p className="text-sm text-muted-foreground">
+                        Compliance
+                      </p>
                       <p className="text-2xl font-bold text-chart-1">94%</p>
                       <div className="flex items-center text-xs text-chart-1">
                         <Lock className="h-3 w-3 mr-1" />
@@ -193,7 +226,9 @@ export default function SecurityPage() {
             <Tabs defaultValue="events" className="space-y-6">
               <TabsList className="grid w-full grid-cols-4">
                 <TabsTrigger value="events">Security Events</TabsTrigger>
-                <TabsTrigger value="vulnerabilities">Vulnerabilities</TabsTrigger>
+                <TabsTrigger value="vulnerabilities">
+                  Vulnerabilities
+                </TabsTrigger>
                 <TabsTrigger value="compliance">Compliance</TabsTrigger>
                 <TabsTrigger value="policies">Security Policies</TabsTrigger>
               </TabsList>
@@ -205,7 +240,9 @@ export default function SecurityPage() {
                     <div className="flex items-center justify-between">
                       <div>
                         <CardTitle>Security Events</CardTitle>
-                        <CardDescription>Real-time security events and threat detection</CardDescription>
+                        <CardDescription>
+                          Real-time security events and threat detection
+                        </CardDescription>
                       </div>
                       <Button size="sm">
                         <Eye className="h-4 w-4 mr-2" />
@@ -224,27 +261,39 @@ export default function SecurityPage() {
                           className="pl-10"
                         />
                       </div>
-                      <Select value={severityFilter} onValueChange={setSeverityFilter}>
+                      <Select
+                        value={severityFilter}
+                        onValueChange={setSeverityFilter}
+                      >
                         <SelectTrigger className="w-full sm:w-[180px]">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="All Severities">All Severities</SelectItem>
+                          <SelectItem value="All Severities">
+                            All Severities
+                          </SelectItem>
                           <SelectItem value="critical">Critical</SelectItem>
                           <SelectItem value="high">High</SelectItem>
                           <SelectItem value="medium">Medium</SelectItem>
                           <SelectItem value="low">Low</SelectItem>
                         </SelectContent>
                       </Select>
-                      <Select value={statusFilter} onValueChange={setStatusFilter}>
+                      <Select
+                        value={statusFilter}
+                        onValueChange={setStatusFilter}
+                      >
                         <SelectTrigger className="w-full sm:w-[180px]">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="All Status">All Status</SelectItem>
                           <SelectItem value="blocked">Blocked</SelectItem>
-                          <SelectItem value="quarantined">Quarantined</SelectItem>
-                          <SelectItem value="investigating">Investigating</SelectItem>
+                          <SelectItem value="quarantined">
+                            Quarantined
+                          </SelectItem>
+                          <SelectItem value="investigating">
+                            Investigating
+                          </SelectItem>
                           <SelectItem value="logged">Logged</SelectItem>
                         </SelectContent>
                       </Select>
@@ -266,17 +315,31 @@ export default function SecurityPage() {
                         <TableBody>
                           {securityEvents.map((event) => (
                             <TableRow key={event.id}>
-                              <TableCell className="font-mono text-sm">{event.id}</TableCell>
+                              <TableCell className="font-mono text-sm">
+                                {event.id}
+                              </TableCell>
                               <TableCell>{event.type}</TableCell>
                               <TableCell>
-                                <Badge className={getSeverityBadge(event.severity)}>{event.severity}</Badge>
+                                <Badge
+                                  className={getSeverityBadge(event.severity)}
+                                >
+                                  {event.severity}
+                                </Badge>
                               </TableCell>
-                              <TableCell className="font-mono text-sm">{event.source}</TableCell>
-                              <TableCell className="font-mono text-sm">{event.target}</TableCell>
+                              <TableCell className="font-mono text-sm">
+                                {event.source}
+                              </TableCell>
+                              <TableCell className="font-mono text-sm">
+                                {event.target}
+                              </TableCell>
                               <TableCell>
-                                <Badge className={getStatusBadge(event.status)}>{event.status}</Badge>
+                                <Badge className={getStatusBadge(event.status)}>
+                                  {event.status}
+                                </Badge>
                               </TableCell>
-                              <TableCell className="text-sm text-muted-foreground">{event.timestamp}</TableCell>
+                              <TableCell className="text-sm text-muted-foreground">
+                                {event.timestamp}
+                              </TableCell>
                             </TableRow>
                           ))}
                         </TableBody>
@@ -291,7 +354,9 @@ export default function SecurityPage() {
                 <Card className="border-border">
                   <CardHeader>
                     <CardTitle>Vulnerability Management</CardTitle>
-                    <CardDescription>Known vulnerabilities and patch status</CardDescription>
+                    <CardDescription>
+                      Known vulnerabilities and patch status
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="rounded-md border border-border">
@@ -310,17 +375,31 @@ export default function SecurityPage() {
                         <TableBody>
                           {vulnerabilities.map((vuln) => (
                             <TableRow key={vuln.id}>
-                              <TableCell className="font-mono text-sm">{vuln.id}</TableCell>
+                              <TableCell className="font-mono text-sm">
+                                {vuln.id}
+                              </TableCell>
                               <TableCell>{vuln.device}</TableCell>
                               <TableCell>
-                                <Badge className={getSeverityBadge(vuln.severity)}>{vuln.severity}</Badge>
+                                <Badge
+                                  className={getSeverityBadge(vuln.severity)}
+                                >
+                                  {vuln.severity}
+                                </Badge>
                               </TableCell>
-                              <TableCell className="font-bold">{vuln.score}</TableCell>
-                              <TableCell className="max-w-xs truncate">{vuln.description}</TableCell>
+                              <TableCell className="font-bold">
+                                {vuln.score}
+                              </TableCell>
+                              <TableCell className="max-w-xs truncate">
+                                {vuln.description}
+                              </TableCell>
                               <TableCell>
-                                <Badge className={getStatusBadge(vuln.status)}>{vuln.status}</Badge>
+                                <Badge className={getStatusBadge(vuln.status)}>
+                                  {vuln.status}
+                                </Badge>
                               </TableCell>
-                              <TableCell className="text-sm text-muted-foreground">{vuln.published}</TableCell>
+                              <TableCell className="text-sm text-muted-foreground">
+                                {vuln.published}
+                              </TableCell>
                             </TableRow>
                           ))}
                         </TableBody>
@@ -336,7 +415,9 @@ export default function SecurityPage() {
                   <Card className="border-border">
                     <CardHeader>
                       <CardTitle>Compliance Status</CardTitle>
-                      <CardDescription>Current compliance with security standards</CardDescription>
+                      <CardDescription>
+                        Current compliance with security standards
+                      </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-6">
                       <div className="space-y-2">
@@ -376,28 +457,42 @@ export default function SecurityPage() {
                   <Card className="border-border">
                     <CardHeader>
                       <CardTitle>Security Controls</CardTitle>
-                      <CardDescription>Implementation status of security controls</CardDescription>
+                      <CardDescription>
+                        Implementation status of security controls
+                      </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div className="flex items-center justify-between">
                         <span className="text-sm">Access Control</span>
-                        <Badge className={getStatusBadge("patched")}>Implemented</Badge>
+                        <Badge className={getStatusBadge("patched")}>
+                          Implemented
+                        </Badge>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-sm">Encryption at Rest</span>
-                        <Badge className={getStatusBadge("patched")}>Implemented</Badge>
+                        <Badge className={getStatusBadge("patched")}>
+                          Implemented
+                        </Badge>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-sm">Network Segmentation</span>
-                        <Badge className={getStatusBadge("mitigated")}>Partial</Badge>
+                        <Badge className={getStatusBadge("mitigated")}>
+                          Partial
+                        </Badge>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-sm">Incident Response</span>
-                        <Badge className={getStatusBadge("patched")}>Implemented</Badge>
+                        <Badge className={getStatusBadge("patched")}>
+                          Implemented
+                        </Badge>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm">Vulnerability Management</span>
-                        <Badge className={getStatusBadge("open")}>In Progress</Badge>
+                        <span className="text-sm">
+                          Vulnerability Management
+                        </span>
+                        <Badge className={getStatusBadge("open")}>
+                          In Progress
+                        </Badge>
                       </div>
                     </CardContent>
                   </Card>
@@ -409,7 +504,9 @@ export default function SecurityPage() {
                 <Card className="border-border">
                   <CardHeader>
                     <CardTitle>Security Policies</CardTitle>
-                    <CardDescription>Active security policies and enforcement status</CardDescription>
+                    <CardDescription>
+                      Active security policies and enforcement status
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
@@ -420,15 +517,23 @@ export default function SecurityPage() {
                             Minimum 12 characters, complexity requirements
                           </p>
                         </div>
-                        <Badge className={getStatusBadge("patched")}>Active</Badge>
+                        <Badge className={getStatusBadge("patched")}>
+                          Active
+                        </Badge>
                       </div>
 
                       <div className="flex items-center justify-between p-4 border border-border rounded-lg">
                         <div>
-                          <h4 className="font-medium">Network Access Control</h4>
-                          <p className="text-sm text-muted-foreground">Role-based access with MFA requirement</p>
+                          <h4 className="font-medium">
+                            Network Access Control
+                          </h4>
+                          <p className="text-sm text-muted-foreground">
+                            Role-based access with MFA requirement
+                          </p>
                         </div>
-                        <Badge className={getStatusBadge("patched")}>Active</Badge>
+                        <Badge className={getStatusBadge("patched")}>
+                          Active
+                        </Badge>
                       </div>
 
                       <div className="flex items-center justify-between p-4 border border-border rounded-lg">
@@ -438,15 +543,21 @@ export default function SecurityPage() {
                             Monitor and prevent sensitive data exfiltration
                           </p>
                         </div>
-                        <Badge className={getStatusBadge("mitigated")}>Partial</Badge>
+                        <Badge className={getStatusBadge("mitigated")}>
+                          Partial
+                        </Badge>
                       </div>
 
                       <div className="flex items-center justify-between p-4 border border-border rounded-lg">
                         <div>
                           <h4 className="font-medium">Incident Response</h4>
-                          <p className="text-sm text-muted-foreground">Automated response to security incidents</p>
+                          <p className="text-sm text-muted-foreground">
+                            Automated response to security incidents
+                          </p>
                         </div>
-                        <Badge className={getStatusBadge("patched")}>Active</Badge>
+                        <Badge className={getStatusBadge("patched")}>
+                          Active
+                        </Badge>
                       </div>
                     </div>
                   </CardContent>
@@ -457,5 +568,5 @@ export default function SecurityPage() {
         </main>
       </div>
     </div>
-  )
+  );
 }

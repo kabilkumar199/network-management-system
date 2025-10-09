@@ -1,35 +1,59 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { Header } from "@/components/layout/header"
-import { Sidebar } from "@/components/layout/sidebar"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
-import { Download, Upload, Pause, Settings, CheckCircle, XCircle, AlertCircle } from "lucide-react"
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Download,
+  Upload,
+  Pause,
+  Settings,
+  CheckCircle,
+  XCircle,
+  AlertCircle,
+} from "lucide-react";
 
 export default function ConfigurationPage() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedDevice, setSelectedDevice] = useState("all")
-  const [selectedStatus, setSelectedStatus] = useState("all")
-  const [showDeviceSelector, setShowDeviceSelector] = useState(false)
-  const [selectedDeviceConfig, setSelectedDeviceConfig] = useState<any>(null)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedDevice, setSelectedDevice] = useState("all");
+  const [selectedStatus, setSelectedStatus] = useState("all");
+  const [showDeviceSelector, setShowDeviceSelector] = useState(false);
+  const [selectedDeviceConfig, setSelectedDeviceConfig] = useState<any>(null);
   const [deviceFilters, setDeviceFilters] = useState({
     type: "all",
     name: "",
     ip: "",
-  })
+  });
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search)
-    const deviceIp = urlParams.get("deviceIp")
-    const deviceName = urlParams.get("deviceName")
-    const deviceType = urlParams.get("deviceType")
+    const urlParams = new URLSearchParams(window.location.search);
+    const deviceIp = urlParams.get("deviceIp");
+    const deviceName = urlParams.get("deviceName");
+    const deviceType = urlParams.get("deviceType");
 
     if (deviceIp && deviceName && deviceType) {
       // Direct access with device info - show config immediately
@@ -37,34 +61,62 @@ export default function ConfigurationPage() {
         ip: deviceIp,
         name: deviceName,
         type: deviceType,
-      })
+      });
     } else if (window.location.pathname === "/config" && !deviceIp) {
       // Direct access without device info - show device selector popup
-      setShowDeviceSelector(true)
+      setShowDeviceSelector(true);
     }
-  }, [])
+  }, []);
 
   // Mock device data for selector
   const availableDevices = [
-    { id: "dev-001", name: "Core-Router-01", type: "Router", ip: "192.168.1.1" },
-    { id: "dev-002", name: "Switch-Floor-03", type: "Switch", ip: "192.168.1.15" },
-    { id: "dev-003", name: "AP-Office-12", type: "Access Point", ip: "192.168.2.45" },
-    { id: "dev-004", name: "Firewall-DMZ", type: "Firewall", ip: "192.168.0.1" },
-    { id: "dev-005", name: "Switch-Backup", type: "Switch", ip: "192.168.1.25" },
-  ]
+    {
+      id: "dev-001",
+      name: "Core-Router-01",
+      type: "Router",
+      ip: "192.168.1.1",
+    },
+    {
+      id: "dev-002",
+      name: "Switch-Floor-03",
+      type: "Switch",
+      ip: "192.168.1.15",
+    },
+    {
+      id: "dev-003",
+      name: "AP-Office-12",
+      type: "Access Point",
+      ip: "192.168.2.45",
+    },
+    {
+      id: "dev-004",
+      name: "Firewall-DMZ",
+      type: "Firewall",
+      ip: "192.168.0.1",
+    },
+    {
+      id: "dev-005",
+      name: "Switch-Backup",
+      type: "Switch",
+      ip: "192.168.1.25",
+    },
+  ];
 
   // Filter devices based on filters
   const filteredDevicesForSelector = availableDevices.filter((device) => {
-    const matchesType = deviceFilters.type === "all" || device.type === deviceFilters.type
-    const matchesName = !deviceFilters.name || device.name.toLowerCase().includes(deviceFilters.name.toLowerCase())
-    const matchesIp = !deviceFilters.ip || device.ip.includes(deviceFilters.ip)
-    return matchesType && matchesName && matchesIp
-  })
+    const matchesType =
+      deviceFilters.type === "all" || device.type === deviceFilters.type;
+    const matchesName =
+      !deviceFilters.name ||
+      device.name.toLowerCase().includes(deviceFilters.name.toLowerCase());
+    const matchesIp = !deviceFilters.ip || device.ip.includes(deviceFilters.ip);
+    return matchesType && matchesName && matchesIp;
+  });
 
   const handleDeviceSelect = (device: any) => {
-    setSelectedDeviceConfig(device)
-    setShowDeviceSelector(false)
-  }
+    setSelectedDeviceConfig(device);
+    setShowDeviceSelector(false);
+  };
 
   // Mock configuration data
   const deviceConfig = selectedDeviceConfig
@@ -148,7 +200,7 @@ no scheduler allocate
 !
 end
 `
-    : ""
+    : "";
 
   // Mock data for configuration backups
   const configBackups = [
@@ -185,7 +237,7 @@ end
       version: "v3.0.1",
       changes: 5,
     },
-  ]
+  ];
 
   // Mock data for scheduled jobs
   const scheduledJobs = [
@@ -222,21 +274,21 @@ end
       success: 8,
       failed: 0,
     },
-  ]
+  ];
 
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "Success":
       case "Active":
-        return <CheckCircle className="h-4 w-4 text-green-400" />
+        return <CheckCircle className="h-4 w-4 text-green-400" />;
       case "Failed":
-        return <XCircle className="h-4 w-4 text-red-400" />
+        return <XCircle className="h-4 w-4 text-red-400" />;
       case "Paused":
-        return <Pause className="h-4 w-4 text-yellow-400" />
+        return <Pause className="h-4 w-4 text-yellow-400" />;
       default:
-        return <AlertCircle className="h-4 w-4 text-gray-400" />
+        return <AlertCircle className="h-4 w-4 text-gray-400" />;
     }
-  }
+  };
 
   const getStatusBadge = (status: string) => {
     const variants = {
@@ -244,40 +296,40 @@ end
       Active: "bg-green-500/20 text-green-400 border-green-500/30",
       Failed: "bg-red-500/20 text-red-400 border-red-500/30",
       Paused: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
-    }
-    return variants[status as keyof typeof variants] || "bg-gray-500/20 text-gray-400 border-gray-500/30"
-  }
+    };
+    return (
+      variants[status as keyof typeof variants] ||
+      "bg-gray-500/20 text-gray-400 border-gray-500/30"
+    );
+  };
 
   const filteredBackups = configBackups.filter((backup) => {
     const matchesSearch =
       backup.device.toLowerCase().includes(searchTerm.toLowerCase()) ||
       backup.deviceType.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      backup.location.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesDevice = !selectedDevice || backup.deviceType === selectedDevice
-    const matchesStatus = !selectedStatus || backup.status === selectedStatus
-    return matchesSearch && matchesDevice && matchesStatus
-  })
+      backup.location.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesDevice =
+      !selectedDevice || backup.deviceType === selectedDevice;
+    const matchesStatus = !selectedStatus || backup.status === selectedStatus;
+    return matchesSearch && matchesDevice && matchesStatus;
+  });
 
   return (
     <div className="flex h-screen bg-background">
-  {/* Sidebar removed: now handled by layout */}
+      {/* Sidebar removed: now handled by layout */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header
-          title="Configuration Management"
-          subtitle={
-            selectedDeviceConfig
-              ? `Device: ${selectedDeviceConfig.name} (${selectedDeviceConfig.ip})`
-              : "Manage device configurations, backups, and scheduled jobs"
-          }
-        />
-
         <main className="flex-1 overflow-y-auto p-6">
           {/* Device Selector Dialog */}
-          <Dialog open={showDeviceSelector} onOpenChange={setShowDeviceSelector}>
+          <Dialog
+            open={showDeviceSelector}
+            onOpenChange={setShowDeviceSelector}
+          >
             <DialogContent className="sm:max-w-[600px]">
               <DialogHeader>
                 <DialogTitle>Select Device for Configuration</DialogTitle>
-                <DialogDescription>Choose a device to view and manage its configuration</DialogDescription>
+                <DialogDescription>
+                  Choose a device to view and manage its configuration
+                </DialogDescription>
               </DialogHeader>
               <div className="space-y-4">
                 <div className="grid grid-cols-3 gap-4">
@@ -285,7 +337,9 @@ end
                     <Label htmlFor="filter-type">Device Type</Label>
                     <Select
                       value={deviceFilters.type}
-                      onValueChange={(value) => setDeviceFilters({ ...deviceFilters, type: value })}
+                      onValueChange={(value) =>
+                        setDeviceFilters({ ...deviceFilters, type: value })
+                      }
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="All Types" />
@@ -294,7 +348,9 @@ end
                         <SelectItem value="all">All Types</SelectItem>
                         <SelectItem value="Router">Router</SelectItem>
                         <SelectItem value="Switch">Switch</SelectItem>
-                        <SelectItem value="Access Point">Access Point</SelectItem>
+                        <SelectItem value="Access Point">
+                          Access Point
+                        </SelectItem>
                         <SelectItem value="Firewall">Firewall</SelectItem>
                       </SelectContent>
                     </Select>
@@ -305,7 +361,12 @@ end
                       id="filter-name"
                       placeholder="Filter by name"
                       value={deviceFilters.name}
-                      onChange={(e) => setDeviceFilters({ ...deviceFilters, name: e.target.value })}
+                      onChange={(e) =>
+                        setDeviceFilters({
+                          ...deviceFilters,
+                          name: e.target.value,
+                        })
+                      }
                     />
                   </div>
                   <div>
@@ -314,7 +375,12 @@ end
                       id="filter-ip"
                       placeholder="Filter by IP"
                       value={deviceFilters.ip}
-                      onChange={(e) => setDeviceFilters({ ...deviceFilters, ip: e.target.value })}
+                      onChange={(e) =>
+                        setDeviceFilters({
+                          ...deviceFilters,
+                          ip: e.target.value,
+                        })
+                      }
                     />
                   </div>
                 </div>
@@ -349,7 +415,10 @@ end
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <Button variant="outline" onClick={() => setShowDeviceSelector(true)}>
+                  <Button
+                    variant="outline"
+                    onClick={() => setShowDeviceSelector(true)}
+                  >
                     Change Device
                   </Button>
                   <Badge variant="outline">{selectedDeviceConfig.type}</Badge>
@@ -373,10 +442,17 @@ end
               <Card>
                 <CardHeader>
                   <CardTitle>Device Configuration</CardTitle>
-                  <CardDescription>Current running configuration for {selectedDeviceConfig.name}</CardDescription>
+                  <CardDescription>
+                    Current running configuration for{" "}
+                    {selectedDeviceConfig.name}
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Textarea value={deviceConfig} readOnly className="font-mono text-sm min-h-[500px] bg-muted" />
+                  <Textarea
+                    value={deviceConfig}
+                    readOnly
+                    className="font-mono text-sm min-h-[500px] bg-muted"
+                  />
                 </CardContent>
               </Card>
             </div>
@@ -387,7 +463,9 @@ end
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <Card>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-muted-foreground">Total Backups</CardTitle>
+                    <CardTitle className="text-sm font-medium text-muted-foreground">
+                      Total Backups
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold">1,247</div>
@@ -396,25 +474,35 @@ end
                 </Card>
                 <Card>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-muted-foreground">Success Rate</CardTitle>
+                    <CardTitle className="text-sm font-medium text-muted-foreground">
+                      Success Rate
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold">97.8%</div>
-                    <p className="text-xs text-green-500 mt-1">+0.2% this week</p>
+                    <p className="text-xs text-green-500 mt-1">
+                      +0.2% this week
+                    </p>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-muted-foreground">Active Jobs</CardTitle>
+                    <CardTitle className="text-sm font-medium text-muted-foreground">
+                      Active Jobs
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold">12</div>
-                    <p className="text-xs text-muted-foreground mt-1">2 scheduled today</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      2 scheduled today
+                    </p>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-muted-foreground">Storage Used</CardTitle>
+                    <CardTitle className="text-sm font-medium text-muted-foreground">
+                      Storage Used
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold">2.4 GB</div>
@@ -426,13 +514,21 @@ end
               <Card>
                 <CardHeader>
                   <CardTitle>Configuration Management</CardTitle>
-                  <CardDescription>Select a device to view and manage its configuration</CardDescription>
+                  <CardDescription>
+                    Select a device to view and manage its configuration
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="text-center py-12">
                   <Settings className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
-                  <h3 className="text-lg font-medium mb-2">No Device Selected</h3>
-                  <p className="text-muted-foreground mb-4">Choose a device to view its configuration</p>
-                  <Button onClick={() => setShowDeviceSelector(true)}>Select Device</Button>
+                  <h3 className="text-lg font-medium mb-2">
+                    No Device Selected
+                  </h3>
+                  <p className="text-muted-foreground mb-4">
+                    Choose a device to view its configuration
+                  </p>
+                  <Button onClick={() => setShowDeviceSelector(true)}>
+                    Select Device
+                  </Button>
                 </CardContent>
               </Card>
             </div>
@@ -440,5 +536,5 @@ end
         </main>
       </div>
     </div>
-  )
+  );
 }

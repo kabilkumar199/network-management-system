@@ -1,9 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Header } from "@/components/layout/header"
-import { Sidebar } from "@/components/layout/sidebar"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -55,8 +53,7 @@ export default function SettingsPage() {
     <div className="flex h-screen bg-background">
   {/* Sidebar removed: now handled by layout */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header title="System Settings" subtitle="Configure system preferences and network parameters" />
-
+ 
         <main className="flex-1 overflow-y-auto p-6">
           <div className="max-w-4xl mx-auto space-y-6">
             <Tabs defaultValue="system" className="space-y-6">

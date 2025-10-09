@@ -1,13 +1,23 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Header } from "@/components/layout/header"
-import { Sidebar } from "@/components/layout/sidebar"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -15,13 +25,22 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Progress } from "@/components/ui/progress"
-import { HardDrive, Download, Upload, CheckCircle, AlertTriangle, Clock, Star, FileText } from "lucide-react"
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Progress } from "@/components/ui/progress";
+import {
+  HardDrive,
+  Download,
+  Upload,
+  CheckCircle,
+  AlertTriangle,
+  Clock,
+  Star,
+  FileText,
+} from "lucide-react";
 
 export default function FirmwarePage() {
-  const [selectedFirmware, setSelectedFirmware] = useState<string | null>(null)
+  const [selectedFirmware, setSelectedFirmware] = useState<string | null>(null);
 
   const firmwareImages = [
     {
@@ -80,7 +99,7 @@ export default function FirmwarePage() {
       rating: 4.9,
       description: "Critical security updates and performance improvements",
     },
-  ]
+  ];
 
   const deployments = [
     {
@@ -113,7 +132,7 @@ export default function FirmwarePage() {
       startTime: "2024-01-15 09:45:00",
       duration: "5m 12s",
     },
-  ]
+  ];
 
   const getStatusBadge = (status: string) => {
     const variants = {
@@ -123,79 +142,58 @@ export default function FirmwarePage() {
       completed: "bg-green-500/10 text-green-500 border-green-500/20",
       "in-progress": "bg-blue-500/10 text-blue-500 border-blue-500/20",
       failed: "bg-red-500/10 text-red-500 border-red-500/20",
-    }
-    return variants[status as keyof typeof variants] || variants.stable
-  }
+    };
+    return variants[status as keyof typeof variants] || variants.stable;
+  };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "completed":
-        return <CheckCircle className="h-4 w-4 text-green-500" />
+        return <CheckCircle className="h-4 w-4 text-green-500" />;
       case "failed":
-        return <AlertTriangle className="h-4 w-4 text-red-500" />
+        return <AlertTriangle className="h-4 w-4 text-red-500" />;
       case "in-progress":
-        return <Clock className="h-4 w-4 text-blue-500" />
+        return <Clock className="h-4 w-4 text-blue-500" />;
       default:
-        return <CheckCircle className="h-4 w-4 text-green-500" />
+        return <CheckCircle className="h-4 w-4 text-green-500" />;
     }
-  }
+  };
 
   return (
     <div className="flex h-screen bg-background">
-  {/* Sidebar removed: now handled by layout */}
+      {/* Sidebar removed: now handled by layout */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header title="Firmware Management" subtitle="Manage device firmware images and deployments" />
-
         <div className="flex-1 p-6 overflow-auto">
-          {/* Summary Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">Total Images</p>
-                    <p className="text-2xl font-bold">47</p>
-                  </div>
-                  <HardDrive className="h-8 w-8 text-primary" />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">Active Deployments</p>
-                    <p className="text-2xl font-bold text-blue-500">3</p>
-                  </div>
-                  <Clock className="h-8 w-8 text-blue-500" />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">Success Rate</p>
-                    <p className="text-2xl font-bold text-green-500">94.7%</p>
-                  </div>
-                  <CheckCircle className="h-8 w-8 text-green-500" />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">Storage Used</p>
-                    <p className="text-2xl font-bold">12.4 GB</p>
-                  </div>
-                  <HardDrive className="h-8 w-8 text-orange-500" />
-                </div>
-              </CardContent>
-            </Card>
+          {/* Compact Summary Info Bars (Inventory style) */}
+          <div className="flex flex-col md:flex-row gap-4 mb-6">
+            <div className="flex items-center bg-blue-50 border border-blue-200 rounded-lg px-4 py-2 h-14 flex-1 min-w-0">
+              <HardDrive className="h-6 w-6 text-blue-500 mr-3" />
+              <div className="flex flex-col justify-center min-w-0">
+                <span className="text-xs text-blue-700 font-medium leading-tight truncate">Total Images</span>
+                <span className="text-lg font-bold text-blue-900 leading-tight truncate">47</span>
+              </div>
+            </div>
+            <div className="flex items-center bg-green-50 border border-green-200 rounded-lg px-4 py-2 h-14 flex-1 min-w-0">
+              <Clock className="h-6 w-6 text-green-500 mr-3" />
+              <div className="flex flex-col justify-center min-w-0">
+                <span className="text-xs text-green-700 font-medium leading-tight truncate">Active Deployments</span>
+                <span className="text-lg font-bold text-green-900 leading-tight truncate">3</span>
+              </div>
+            </div>
+            <div className="flex items-center bg-yellow-50 border border-yellow-200 rounded-lg px-4 py-2 h-14 flex-1 min-w-0">
+              <CheckCircle className="h-6 w-6 text-yellow-500 mr-3" />
+              <div className="flex flex-col justify-center min-w-0">
+                <span className="text-xs text-yellow-700 font-medium leading-tight truncate">Success Rate</span>
+                <span className="text-lg font-bold text-yellow-900 leading-tight truncate">94.7%</span>
+              </div>
+            </div>
+            <div className="flex items-center bg-orange-50 border border-orange-200 rounded-lg px-4 py-2 h-14 flex-1 min-w-0">
+              <HardDrive className="h-6 w-6 text-orange-500 mr-3" />
+              <div className="flex flex-col justify-center min-w-0">
+                <span className="text-xs text-orange-700 font-medium leading-tight truncate">Storage Used</span>
+                <span className="text-lg font-bold text-orange-900 leading-tight truncate">12.4 GB</span>
+              </div>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -206,7 +204,9 @@ export default function FirmwarePage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <CardTitle>Firmware Catalog</CardTitle>
-                      <CardDescription>Available firmware images and versions</CardDescription>
+                      <CardDescription>
+                        Available firmware images and versions
+                      </CardDescription>
                     </div>
                     <Dialog>
                       <DialogTrigger asChild>
@@ -218,20 +218,32 @@ export default function FirmwarePage() {
                       <DialogContent>
                         <DialogHeader>
                           <DialogTitle>Upload Firmware Image</DialogTitle>
-                          <DialogDescription>Upload a new firmware image to the catalog</DialogDescription>
+                          <DialogDescription>
+                            Upload a new firmware image to the catalog
+                          </DialogDescription>
                         </DialogHeader>
                         <div className="space-y-4">
                           <div>
                             <Label htmlFor="firmware-file">Firmware File</Label>
-                            <Input id="firmware-file" type="file" accept=".bin,.img,.tar" />
+                            <Input
+                              id="firmware-file"
+                              type="file"
+                              accept=".bin,.img,.tar"
+                            />
                           </div>
                           <div>
                             <Label htmlFor="firmware-name">Image Name</Label>
-                            <Input id="firmware-name" placeholder="Enter firmware name" />
+                            <Input
+                              id="firmware-name"
+                              placeholder="Enter firmware name"
+                            />
                           </div>
                           <div>
                             <Label htmlFor="firmware-version">Version</Label>
-                            <Input id="firmware-version" placeholder="e.g., 17.3.04a" />
+                            <Input
+                              id="firmware-version"
+                              placeholder="e.g., 17.3.04a"
+                            />
                           </div>
                           <div>
                             <Label htmlFor="firmware-vendor">Vendor</Label>
@@ -243,7 +255,9 @@ export default function FirmwarePage() {
                                 <SelectItem value="cisco">Cisco</SelectItem>
                                 <SelectItem value="juniper">Juniper</SelectItem>
                                 <SelectItem value="aruba">Aruba</SelectItem>
-                                <SelectItem value="fortinet">Fortinet</SelectItem>
+                                <SelectItem value="fortinet">
+                                  Fortinet
+                                </SelectItem>
                               </SelectContent>
                             </Select>
                           </div>
@@ -259,7 +273,10 @@ export default function FirmwarePage() {
                 <CardContent>
                   <div className="space-y-4">
                     <div className="flex items-center gap-4">
-                      <Input placeholder="Search firmware..." className="flex-1" />
+                      <Input
+                        placeholder="Search firmware..."
+                        className="flex-1"
+                      />
                       <Select defaultValue="all">
                         <SelectTrigger className="w-32">
                           <SelectValue />
@@ -274,14 +291,23 @@ export default function FirmwarePage() {
 
                     <div className="space-y-3">
                       {firmwareImages.map((firmware) => (
-                        <div key={firmware.id} className="p-4 border rounded-lg hover:bg-muted/50 cursor-pointer">
+                        <div
+                          key={firmware.id}
+                          className="p-4 border rounded-lg hover:bg-muted/50 cursor-pointer"
+                        >
                           <div className="flex items-start justify-between">
                             <div className="flex-1">
                               <div className="flex items-center gap-2 mb-2">
                                 <h4 className="font-medium">{firmware.name}</h4>
-                                <Badge className={getStatusBadge(firmware.status)}>{firmware.status}</Badge>
+                                <Badge
+                                  className={getStatusBadge(firmware.status)}
+                                >
+                                  {firmware.status}
+                                </Badge>
                               </div>
-                              <p className="text-sm text-muted-foreground mb-2">{firmware.description}</p>
+                              <p className="text-sm text-muted-foreground mb-2">
+                                {firmware.description}
+                              </p>
                               <div className="flex items-center gap-4 text-xs text-muted-foreground">
                                 <span>{firmware.vendor}</span>
                                 <span>{firmware.deviceType}</span>
@@ -316,20 +342,31 @@ export default function FirmwarePage() {
               <Card>
                 <CardHeader>
                   <CardTitle>Active Deployments</CardTitle>
-                  <CardDescription>Current firmware deployment operations</CardDescription>
+                  <CardDescription>
+                    Current firmware deployment operations
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
                     {deployments.map((deployment) => (
-                      <div key={deployment.id} className="p-4 border rounded-lg">
+                      <div
+                        key={deployment.id}
+                        className="p-4 border rounded-lg"
+                      >
                         <div className="flex items-center justify-between mb-3">
                           <div>
                             <h4 className="font-medium">{deployment.device}</h4>
-                            <p className="text-sm text-muted-foreground">{deployment.deviceIp}</p>
+                            <p className="text-sm text-muted-foreground">
+                              {deployment.deviceIp}
+                            </p>
                           </div>
                           <div className="flex items-center gap-2">
                             {getStatusIcon(deployment.status)}
-                            <Badge className={getStatusBadge(deployment.status)}>{deployment.status}</Badge>
+                            <Badge
+                              className={getStatusBadge(deployment.status)}
+                            >
+                              {deployment.status}
+                            </Badge>
                           </div>
                         </div>
 
@@ -338,7 +375,10 @@ export default function FirmwarePage() {
                             <span>Firmware: {deployment.firmware}</span>
                             <span>{deployment.progress}%</span>
                           </div>
-                          <Progress value={deployment.progress} className="h-2" />
+                          <Progress
+                            value={deployment.progress}
+                            className="h-2"
+                          />
                           <div className="flex justify-between text-xs text-muted-foreground">
                             <span>Started: {deployment.startTime}</span>
                             <span>Duration: {deployment.duration}</span>
@@ -354,5 +394,5 @@ export default function FirmwarePage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

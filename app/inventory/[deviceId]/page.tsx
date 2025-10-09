@@ -1,16 +1,35 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useParams } from "next/navigation"
-import { Header } from "@/components/layout/header"
-import { Sidebar } from "@/components/layout/sidebar"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Progress } from "@/components/ui/progress"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
+import { useState } from "react";
+import { useParams } from "next/navigation";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Progress } from "@/components/ui/progress";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 import {
   ArrowLeft,
   Server,
@@ -25,7 +44,7 @@ import {
   CheckCircle,
   Edit,
   RefreshCw,
-} from "lucide-react"
+} from "lucide-react";
 
 // Mock device data
 const mockDevice = {
@@ -46,7 +65,7 @@ const mockDevice = {
   description: "Core router for primary data center connectivity",
   managementIP: "192.168.100.1",
   snmpCommunity: "public",
-}
+};
 
 // Mock performance data
 const performanceData = [
@@ -57,7 +76,7 @@ const performanceData = [
   { time: "16:00", cpu: 78, memory: 72, bandwidth: 58, temperature: 58 },
   { time: "20:00", cpu: 55, memory: 48, bandwidth: 42, temperature: 48 },
   { time: "24:00", cpu: 35, memory: 42, bandwidth: 28, temperature: 45 },
-]
+];
 
 // Mock interface data
 const interfaceData = [
@@ -93,47 +112,8 @@ const interfaceData = [
     outOctets: "0 B",
     inErrors: 0,
     outErrors: 0,
-  },{
-    name: "GigabitEthernet0/0/2",
-    status: "down",
-    speed: "1000 Mbps",
-    duplex: "Full",
-    mtu: 1500,
-    inOctets: "0 B",
-    outOctets: "0 B",
-    inErrors: 0,
-    outErrors: 0,
-  },{
-    name: "GigabitEthernet0/0/2",
-    status: "down",
-    speed: "1000 Mbps",
-    duplex: "Full",
-    mtu: 1500,
-    inOctets: "0 B",
-    outOctets: "0 B",
-    inErrors: 0,
-    outErrors: 0,
-  },{
-    name: "GigabitEthernet0/0/2",
-    status: "down",
-    speed: "1000 Mbps",
-    duplex: "Full",
-    mtu: 1500,
-    inOctets: "0 B",
-    outOctets: "0 B",
-    inErrors: 0,
-    outErrors: 0,
-  },{
-    name: "GigabitEthernet0/0/2",
-    status: "down",
-    speed: "1000 Mbps",
-    duplex: "Full",
-    mtu: 1500,
-    inOctets: "0 B",
-    outOctets: "0 B",
-    inErrors: 0,
-    outErrors: 0,
-  },{
+  },
+  {
     name: "GigabitEthernet0/0/2",
     status: "down",
     speed: "1000 Mbps",
@@ -144,7 +124,51 @@ const interfaceData = [
     inErrors: 0,
     outErrors: 0,
   },
-]
+  {
+    name: "GigabitEthernet0/0/2",
+    status: "down",
+    speed: "1000 Mbps",
+    duplex: "Full",
+    mtu: 1500,
+    inOctets: "0 B",
+    outOctets: "0 B",
+    inErrors: 0,
+    outErrors: 0,
+  },
+  {
+    name: "GigabitEthernet0/0/2",
+    status: "down",
+    speed: "1000 Mbps",
+    duplex: "Full",
+    mtu: 1500,
+    inOctets: "0 B",
+    outOctets: "0 B",
+    inErrors: 0,
+    outErrors: 0,
+  },
+  {
+    name: "GigabitEthernet0/0/2",
+    status: "down",
+    speed: "1000 Mbps",
+    duplex: "Full",
+    mtu: 1500,
+    inOctets: "0 B",
+    outOctets: "0 B",
+    inErrors: 0,
+    outErrors: 0,
+  },
+  {
+    name: "GigabitEthernet0/0/2",
+    status: "down",
+    speed: "1000 Mbps",
+    duplex: "Full",
+    mtu: 1500,
+    inOctets: "0 B",
+    outOctets: "0 B",
+    inErrors: 0,
+    outErrors: 0,
+  },
+];
 
 // Mock configuration data
 const configData = `
@@ -191,11 +215,11 @@ line vty 0 4
  login
 !
 end
-`
+`;
 
 export default function DeviceDetailPage() {
-  const params = useParams()
-  const [activeTab, setActiveTab] = useState("overview")
+  const params = useParams();
+  const [activeTab, setActiveTab] = useState("overview");
 
   const getStatusBadge = (status: string) => {
     const variants = {
@@ -205,34 +229,31 @@ export default function DeviceDetailPage() {
       offline: "bg-muted text-muted-foreground border-border",
       up: "bg-chart-1/10 text-chart-1 border-chart-1/20",
       down: "bg-destructive/10 text-destructive border-destructive/20",
-    }
-    return variants[status as keyof typeof variants] || variants.offline
-  }
+    };
+    return variants[status as keyof typeof variants] || variants.offline;
+  };
 
   const getDeviceIcon = (type: string) => {
     switch (type) {
       case "Router":
-        return <Router className="h-6 w-6" />
+        return <Router className="h-6 w-6" />;
       case "Switch":
-        return <Server className="h-6 w-6" />
+        return <Server className="h-6 w-6" />;
       case "Access Point":
-        return <Wifi className="h-6 w-6" />
+        return <Wifi className="h-6 w-6" />;
       case "Firewall":
-        return <Shield className="h-6 w-6" />
+        return <Shield className="h-6 w-6" />;
       default:
-        return <Server className="h-6 w-6" />
+        return <Server className="h-6 w-6" />;
     }
-  }
+  };
 
   return (
     <div className="flex h-screen bg-background">
-  {/* Sidebar removed: now handled by layout */}
+      {/* Sidebar removed: now handled by layout */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header title={mockDevice.name} subtitle={`${mockDevice.model} • ${mockDevice.ip} • ${mockDevice.location}`} />
-
         <main className="flex-1 overflow-y-auto p-6">
           <div className="space-y-6">
-            {/* Back Button and Device Header */}
             <div className="flex items-center justify-between">
               <Button variant="ghost" onClick={() => window.history.back()}>
                 <ArrowLeft className="h-4 w-4 mr-2" />
@@ -254,32 +275,58 @@ export default function DeviceDetailPage() {
             <Card className="border-border">
               <CardContent className="p-6">
                 <div className="flex items-start gap-6">
-                  <div className="p-4 bg-muted/50 rounded-lg">{getDeviceIcon(mockDevice.type)}</div>
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    {getDeviceIcon(mockDevice.type)}
+                  </div>
                   <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div>
-                      <h3 className="font-semibold text-lg mb-2">{mockDevice.name}</h3>
+                      <h3 className="font-semibold text-lg mb-2">
+                        {mockDevice.name}
+                      </h3>
                       <div className="space-y-1 text-sm">
-                        <p className="text-muted-foreground">Model: {mockDevice.model}</p>
-                        <p className="text-muted-foreground">Serial: {mockDevice.serialNumber}</p>
-                        <p className="text-muted-foreground">Vendor: {mockDevice.vendor}</p>
+                        <p className="text-muted-foreground">
+                          Model: {mockDevice.model}
+                        </p>
+                        <p className="text-muted-foreground">
+                          Serial: {mockDevice.serialNumber}
+                        </p>
+                        <p className="text-muted-foreground">
+                          Vendor: {mockDevice.vendor}
+                        </p>
                       </div>
                     </div>
                     <div>
                       <div className="flex items-center gap-2 mb-2">
-                        <Badge className={getStatusBadge(mockDevice.status)}>{mockDevice.status}</Badge>
+                        <Badge className={getStatusBadge(mockDevice.status)}>
+                          {mockDevice.status}
+                        </Badge>
                       </div>
                       <div className="space-y-1 text-sm">
-                        <p className="text-muted-foreground">Uptime: {mockDevice.uptime}</p>
-                        <p className="text-muted-foreground">Last Seen: {mockDevice.lastSeen}</p>
-                        <p className="text-muted-foreground">Firmware: {mockDevice.firmware}</p>
+                        <p className="text-muted-foreground">
+                          Uptime: {mockDevice.uptime}
+                        </p>
+                        <p className="text-muted-foreground">
+                          Last Seen: {mockDevice.lastSeen}
+                        </p>
+                        <p className="text-muted-foreground">
+                          Firmware: {mockDevice.firmware}
+                        </p>
                       </div>
                     </div>
                     <div>
                       <div className="space-y-1 text-sm">
-                        <p className="text-muted-foreground">IP Address: {mockDevice.ip}</p>
-                        <p className="text-muted-foreground">MAC: {mockDevice.macAddress}</p>
-                        <p className="text-muted-foreground">Location: {mockDevice.location}</p>
-                        <p className="text-muted-foreground">Ports: {mockDevice.ports}</p>
+                        <p className="text-muted-foreground">
+                          IP Address: {mockDevice.ip}
+                        </p>
+                        <p className="text-muted-foreground">
+                          MAC: {mockDevice.macAddress}
+                        </p>
+                        <p className="text-muted-foreground">
+                          Location: {mockDevice.location}
+                        </p>
+                        <p className="text-muted-foreground">
+                          Ports: {mockDevice.ports}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -288,7 +335,11 @@ export default function DeviceDetailPage() {
             </Card>
 
             {/* Tabbed Content */}
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+            <Tabs
+              value={activeTab}
+              onValueChange={setActiveTab}
+              className="space-y-6"
+            >
               <TabsList className="grid w-full grid-cols-6">
                 <TabsTrigger value="overview">Overview</TabsTrigger>
                 <TabsTrigger value="performance">Performance</TabsTrigger>
@@ -305,12 +356,16 @@ export default function DeviceDetailPage() {
                   <Card className="border-border">
                     <CardHeader>
                       <CardTitle>System Information</CardTitle>
-                      <CardDescription>Device specifications and hardware details</CardDescription>
+                      <CardDescription>
+                        Device specifications and hardware details
+                      </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <p className="text-sm text-muted-foreground">Device Type</p>
+                          <p className="text-sm text-muted-foreground">
+                            Device Type
+                          </p>
                           <p className="font-medium">{mockDevice.type}</p>
                         </div>
                         <div>
@@ -318,20 +373,34 @@ export default function DeviceDetailPage() {
                           <p className="font-medium">{mockDevice.model}</p>
                         </div>
                         <div>
-                          <p className="text-sm text-muted-foreground">Serial Number</p>
-                          <p className="font-medium font-mono text-sm">{mockDevice.serialNumber}</p>
+                          <p className="text-sm text-muted-foreground">
+                            Serial Number
+                          </p>
+                          <p className="font-medium font-mono text-sm">
+                            {mockDevice.serialNumber}
+                          </p>
                         </div>
                         <div>
-                          <p className="text-sm text-muted-foreground">MAC Address</p>
-                          <p className="font-medium font-mono text-sm">{mockDevice.macAddress}</p>
+                          <p className="text-sm text-muted-foreground">
+                            MAC Address
+                          </p>
+                          <p className="font-medium font-mono text-sm">
+                            {mockDevice.macAddress}
+                          </p>
                         </div>
                         <div>
-                          <p className="text-sm text-muted-foreground">Firmware Version</p>
+                          <p className="text-sm text-muted-foreground">
+                            Firmware Version
+                          </p>
                           <p className="font-medium">{mockDevice.firmware}</p>
                         </div>
                         <div>
-                          <p className="text-sm text-muted-foreground">Management IP</p>
-                          <p className="font-medium font-mono text-sm">{mockDevice.managementIP}</p>
+                          <p className="text-sm text-muted-foreground">
+                            Management IP
+                          </p>
+                          <p className="font-medium font-mono text-sm">
+                            {mockDevice.managementIP}
+                          </p>
                         </div>
                       </div>
                     </CardContent>
@@ -341,7 +410,9 @@ export default function DeviceDetailPage() {
                   <Card className="border-border">
                     <CardHeader>
                       <CardTitle>Current Status</CardTitle>
-                      <CardDescription>Real-time device health and performance</CardDescription>
+                      <CardDescription>
+                        Real-time device health and performance
+                      </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-6">
                       <div className="space-y-2">
@@ -395,7 +466,9 @@ export default function DeviceDetailPage() {
                 <Card className="border-border">
                   <CardHeader>
                     <CardTitle>Recent Events</CardTitle>
-                    <CardDescription>Latest device events and alerts</CardDescription>
+                    <CardDescription>
+                      Latest device events and alerts
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
@@ -404,8 +477,12 @@ export default function DeviceDetailPage() {
                           <CheckCircle className="h-3 w-3 text-chart-1" />
                         </div>
                         <div className="flex-1 space-y-1">
-                          <p className="text-sm font-medium">Interface GigabitEthernet0/0/1 came up</p>
-                          <p className="text-xs text-muted-foreground">2024-01-15 10:25:30</p>
+                          <p className="text-sm font-medium">
+                            Interface GigabitEthernet0/0/1 came up
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            2024-01-15 10:25:30
+                          </p>
                         </div>
                       </div>
 
@@ -414,8 +491,12 @@ export default function DeviceDetailPage() {
                           <AlertTriangle className="h-3 w-3 text-chart-4" />
                         </div>
                         <div className="flex-1 space-y-1">
-                          <p className="text-sm font-medium">High CPU utilization detected &gt; 80%</p>
-                          <p className="text-xs text-muted-foreground">2024-01-15 09:45:12</p>
+                          <p className="text-sm font-medium">
+                            High CPU utilization detected &gt; 80%
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            2024-01-15 09:45:12
+                          </p>
                         </div>
                       </div>
 
@@ -424,8 +505,12 @@ export default function DeviceDetailPage() {
                           <CheckCircle className="h-3 w-3 text-chart-1" />
                         </div>
                         <div className="flex-1 space-y-1">
-                          <p className="text-sm font-medium">Configuration backup completed</p>
-                          <p className="text-xs text-muted-foreground">2024-01-15 08:00:00</p>
+                          <p className="text-sm font-medium">
+                            Configuration backup completed
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            2024-01-15 08:00:00
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -438,13 +523,21 @@ export default function DeviceDetailPage() {
                 <Card className="border-border">
                   <CardHeader>
                     <CardTitle>Performance Metrics</CardTitle>
-                    <CardDescription>Historical performance data over the last 24 hours</CardDescription>
+                    <CardDescription>
+                      Historical performance data over the last 24 hours
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <ResponsiveContainer width="100%" height={400}>
                       <LineChart data={performanceData}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                        <XAxis dataKey="time" stroke="hsl(var(--muted-foreground))" />
+                        <CartesianGrid
+                          strokeDasharray="3 3"
+                          stroke="hsl(var(--border))"
+                        />
+                        <XAxis
+                          dataKey="time"
+                          stroke="hsl(var(--muted-foreground))"
+                        />
                         <YAxis stroke="hsl(var(--muted-foreground))" />
                         <Tooltip
                           contentStyle={{
@@ -453,7 +546,13 @@ export default function DeviceDetailPage() {
                             borderRadius: "8px",
                           }}
                         />
-                        <Line type="monotone" dataKey="cpu" stroke="hsl(var(--chart-1))" strokeWidth={2} dot={false} />
+                        <Line
+                          type="monotone"
+                          dataKey="cpu"
+                          stroke="hsl(var(--chart-1))"
+                          strokeWidth={2}
+                          dot={false}
+                        />
                         <Line
                           type="monotone"
                           dataKey="memory"
@@ -480,19 +579,27 @@ export default function DeviceDetailPage() {
                     <div className="flex justify-center gap-6 mt-4">
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-chart-1" />
-                        <span className="text-sm text-muted-foreground">CPU (%)</span>
+                        <span className="text-sm text-muted-foreground">
+                          CPU (%)
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-chart-2" />
-                        <span className="text-sm text-muted-foreground">Memory (%)</span>
+                        <span className="text-sm text-muted-foreground">
+                          Memory (%)
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-chart-3" />
-                        <span className="text-sm text-muted-foreground">Bandwidth (%)</span>
+                        <span className="text-sm text-muted-foreground">
+                          Bandwidth (%)
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-chart-4" />
-                        <span className="text-sm text-muted-foreground">Temperature (°C)</span>
+                        <span className="text-sm text-muted-foreground">
+                          Temperature (°C)
+                        </span>
                       </div>
                     </div>
                   </CardContent>
@@ -504,7 +611,9 @@ export default function DeviceDetailPage() {
                 <Card className="border-border">
                   <CardHeader>
                     <CardTitle>Network Interfaces</CardTitle>
-                    <CardDescription>Status and statistics for all network interfaces</CardDescription>
+                    <CardDescription>
+                      Status and statistics for all network interfaces
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="rounded-md border border-border">
@@ -524,9 +633,13 @@ export default function DeviceDetailPage() {
                         <TableBody>
                           {interfaceData.map((iface, index) => (
                             <TableRow key={index}>
-                              <TableCell className="font-mono text-sm">{iface.name}</TableCell>
+                              <TableCell className="font-mono text-sm">
+                                {iface.name}
+                              </TableCell>
                               <TableCell>
-                                <Badge className={getStatusBadge(iface.status)}>{iface.status}</Badge>
+                                <Badge className={getStatusBadge(iface.status)}>
+                                  {iface.status}
+                                </Badge>
                               </TableCell>
                               <TableCell>{iface.speed}</TableCell>
                               <TableCell>{iface.duplex}</TableCell>
@@ -537,7 +650,9 @@ export default function DeviceDetailPage() {
                                 {iface.inErrors + iface.outErrors === 0 ? (
                                   <span className="text-chart-1">None</span>
                                 ) : (
-                                  <span className="text-destructive">{iface.inErrors + iface.outErrors}</span>
+                                  <span className="text-destructive">
+                                    {iface.inErrors + iface.outErrors}
+                                  </span>
                                 )}
                               </TableCell>
                             </TableRow>
@@ -554,11 +669,15 @@ export default function DeviceDetailPage() {
                 <Card className="border-border">
                   <CardHeader>
                     <CardTitle>Device Configuration</CardTitle>
-                    <CardDescription>Current running configuration</CardDescription>
+                    <CardDescription>
+                      Current running configuration
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="bg-muted/50 rounded-lg p-4">
-                      <pre className="text-sm font-mono whitespace-pre-wrap overflow-x-auto">{configData}</pre>
+                      <pre className="text-sm font-mono whitespace-pre-wrap overflow-x-auto">
+                        {configData}
+                      </pre>
                     </div>
                   </CardContent>
                 </Card>
@@ -570,25 +689,37 @@ export default function DeviceDetailPage() {
                   <Card className="border-border">
                     <CardHeader>
                       <CardTitle>SNMP Monitoring</CardTitle>
-                      <CardDescription>SNMP configuration and status</CardDescription>
+                      <CardDescription>
+                        SNMP configuration and status
+                      </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <p className="text-sm text-muted-foreground">SNMP Version</p>
+                          <p className="text-sm text-muted-foreground">
+                            SNMP Version
+                          </p>
                           <p className="font-medium">v2c</p>
                         </div>
                         <div>
-                          <p className="text-sm text-muted-foreground">Community</p>
-                          <p className="font-medium font-mono text-sm">{mockDevice.snmpCommunity}</p>
+                          <p className="text-sm text-muted-foreground">
+                            Community
+                          </p>
+                          <p className="font-medium font-mono text-sm">
+                            {mockDevice.snmpCommunity}
+                          </p>
                         </div>
                         <div>
                           <p className="text-sm text-muted-foreground">Port</p>
                           <p className="font-medium">161</p>
                         </div>
                         <div>
-                          <p className="text-sm text-muted-foreground">Status</p>
-                          <Badge className={getStatusBadge("online")}>Active</Badge>
+                          <p className="text-sm text-muted-foreground">
+                            Status
+                          </p>
+                          <Badge className={getStatusBadge("online")}>
+                            Active
+                          </Badge>
                         </div>
                       </div>
                     </CardContent>
@@ -597,25 +728,35 @@ export default function DeviceDetailPage() {
                   <Card className="border-border">
                     <CardHeader>
                       <CardTitle>Monitoring Alerts</CardTitle>
-                      <CardDescription>Active monitoring rules and thresholds</CardDescription>
+                      <CardDescription>
+                        Active monitoring rules and thresholds
+                      </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div className="space-y-3">
                         <div className="flex items-center justify-between">
                           <span className="text-sm">CPU Usage &gt; 80%</span>
-                          <Badge className={getStatusBadge("online")}>Active</Badge>
+                          <Badge className={getStatusBadge("online")}>
+                            Active
+                          </Badge>
                         </div>
                         <div className="flex items-center justify-between">
                           <span className="text-sm">Memory Usage &gt; 90%</span>
-                          <Badge className={getStatusBadge("online")}>Active</Badge>
+                          <Badge className={getStatusBadge("online")}>
+                            Active
+                          </Badge>
                         </div>
                         <div className="flex items-center justify-between">
                           <span className="text-sm">Interface Down</span>
-                          <Badge className={getStatusBadge("online")}>Active</Badge>
+                          <Badge className={getStatusBadge("online")}>
+                            Active
+                          </Badge>
                         </div>
                         <div className="flex items-center justify-between">
                           <span className="text-sm">Temperature &gt; 70°C</span>
-                          <Badge className={getStatusBadge("online")}>Active</Badge>
+                          <Badge className={getStatusBadge("online")}>
+                            Active
+                          </Badge>
                         </div>
                       </div>
                     </CardContent>
@@ -628,27 +769,33 @@ export default function DeviceDetailPage() {
                 <Card className="border-border">
                   <CardHeader>
                     <CardTitle>System Logs</CardTitle>
-                    <CardDescription>Recent system and application logs</CardDescription>
+                    <CardDescription>
+                      Recent system and application logs
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="bg-muted/50 rounded-lg p-4 font-mono text-sm space-y-1">
                       <div className="text-chart-1">
-                        Jan 15 10:30:00 Core-Router-01 %LINK-3-UPDOWN: Interface GigabitEthernet0/0/1, changed state to
-                        up
+                        Jan 15 10:30:00 Core-Router-01 %LINK-3-UPDOWN: Interface
+                        GigabitEthernet0/0/1, changed state to up
                       </div>
                       <div className="text-chart-4">
-                        Jan 15 09:45:12 Core-Router-01 %SYS-4-CPU_HOG: Task is hogging the CPU, CPU usage: 78%
+                        Jan 15 09:45:12 Core-Router-01 %SYS-4-CPU_HOG: Task is
+                        hogging the CPU, CPU usage: 78%
                       </div>
                       <div className="text-chart-1">
-                        Jan 15 08:00:00 Core-Router-01 %SYS-5-CONFIG_I: Configured from console by admin
+                        Jan 15 08:00:00 Core-Router-01 %SYS-5-CONFIG_I:
+                        Configured from console by admin
                       </div>
                       <div className="text-muted-foreground">
-                        Jan 15 07:30:15 Core-Router-01 %OSPF-5-ADJCHG: Process 1, Nbr 192.168.1.2 on
-                        GigabitEthernet0/0/1 from LOADING to FULL
+                        Jan 15 07:30:15 Core-Router-01 %OSPF-5-ADJCHG: Process
+                        1, Nbr 192.168.1.2 on GigabitEthernet0/0/1 from LOADING
+                        to FULL
                       </div>
                       <div className="text-muted-foreground">
-                        Jan 15 06:15:30 Core-Router-01 %SYS-6-LOGGINGHOST_STARTSTOP: Logging to host 192.168.100.10
-                        started
+                        Jan 15 06:15:30 Core-Router-01
+                        %SYS-6-LOGGINGHOST_STARTSTOP: Logging to host
+                        192.168.100.10 started
                       </div>
                     </div>
                   </CardContent>
@@ -659,5 +806,5 @@ export default function DeviceDetailPage() {
         </main>
       </div>
     </div>
-  )
+  );
 }

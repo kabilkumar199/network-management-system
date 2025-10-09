@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Header } from "@/components/layout/header";
-import { Sidebar } from "@/components/layout/sidebar";
 import {
   Card,
   CardContent,
@@ -62,7 +60,7 @@ import {
   Settings,
 } from "lucide-react";
 // Import device data from JSON
-import deviceData from '@/lib/mockDevices.json';
+import deviceData from "@/lib/mockDevices.json";
 
 const deviceTypes = [
   "All Types",
@@ -81,7 +79,6 @@ const locations = [
   "Office Wing",
   "DMZ",
 ];
-
 
 export default function InventoryPage() {
   const [devices, setDevices] = useState(deviceData);
@@ -172,11 +169,6 @@ export default function InventoryPage() {
     <div className="flex min-h-dvh bg-background">
       {/* Sidebar removed: now handled by layout */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header
-          title="Device Inventory"
-          subtitle="Manage and monitor all network devices"
-        />
-
         <main className="flex-1 overflow-y-auto p-6">
           <div className="space-y-6">
             {/* Compact Summary Info Bars */}
@@ -525,37 +517,37 @@ export default function InventoryPage() {
                     </p>
                   </div>
                 )}
-              {/* Pagination Controls */}
-              {filteredDevices.length > devicesPerPage && (
-                <div className="flex justify-center items-center gap-2 py-4">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                  >
-                    Previous
-                  </Button>
-                  {Array.from({ length: totalPages }, (_, i) => (
+                {/* Pagination Controls */}
+                {filteredDevices.length > devicesPerPage && (
+                  <div className="flex justify-center items-center gap-2 py-4">
                     <Button
-                      key={i + 1}
-                      variant={currentPage === i + 1 ? "default" : "outline"}
+                      variant="outline"
                       size="sm"
-                      onClick={() => handlePageChange(i + 1)}
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
                     >
-                      {i + 1}
+                      Previous
                     </Button>
-                  ))}
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                  >
-                    Next
-                  </Button>
-                </div>
-              )}
+                    {Array.from({ length: totalPages }, (_, i) => (
+                      <Button
+                        key={i + 1}
+                        variant={currentPage === i + 1 ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => handlePageChange(i + 1)}
+                      >
+                        {i + 1}
+                      </Button>
+                    ))}
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                    >
+                      Next
+                    </Button>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>

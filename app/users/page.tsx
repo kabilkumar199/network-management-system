@@ -1,9 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Header } from "@/components/layout/header"
-import { Sidebar } from "@/components/layout/sidebar"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
@@ -120,8 +118,7 @@ export default function UsersPage() {
     <div className="flex h-screen bg-background">
   {/* Sidebar removed: now handled by layout */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header title="User Management" subtitle="Manage system users, roles, and permissions" />
-
+ 
         <main className="flex-1 overflow-y-auto p-6">
           <div className="space-y-6">
             {/* Summary Cards */}

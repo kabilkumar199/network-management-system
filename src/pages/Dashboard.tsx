@@ -1,12 +1,15 @@
 // Utility to aggregate device type/NOS distribution from topologyNodes
 const getTypeDistribution = (nodes: typeof topologyNodes) => {
-  const typeMap: Record<string, { name: string; value: number; color: string }> = {};
+  const typeMap: Record<
+    string,
+    { name: string; value: number; color: string }
+  > = {};
   const typeColors = [
-    '#1f77b4', // Router
-    '#ff7f0e', // Switch
-    '#2ca02c', // Firewall
-    '#d62728', // Access Point
-    '#9467bd', // Other
+    "#1f77b4", // Router
+    "#ff7f0e", // Switch
+    "#2ca02c", // Firewall
+    "#d62728", // Access Point
+    "#9467bd", // Other
   ];
   let colorIdx = 0;
   nodes.forEach((node) => {
@@ -23,8 +26,6 @@ const getTypeDistribution = (nodes: typeof topologyNodes) => {
   });
   return Object.values(typeMap);
 };
-import { Header } from "@/components/layout/header";
-import { Sidebar } from "@/components/layout/sidebar";
 import {
   Card,
   CardContent,
@@ -35,20 +36,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import {
-  LineChart,
-  Line,
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-} from "recharts";
+import { Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import {
   Server,
   Wifi,
@@ -240,11 +228,6 @@ export default function DashboardPage() {
   return (
     <div className="flex h-screen bg-background">
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header
-          title="Network Dashboard"
-          subtitle="Real-time network infrastructure monitoring and management"
-        />
-
         <main className="flex-1 overflow-y-auto p-6">
           <div className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -395,7 +378,6 @@ export default function DashboardPage() {
                 </CardContent>
               </Card>
 
-
               {/* Device Status & NOS Distribution Charts */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Device Status Chart */}
@@ -420,7 +402,10 @@ export default function DashboardPage() {
                             dataKey="value"
                           >
                             {deviceStatusData.map((entry, index) => (
-                              <Cell key={`cell-status-${index}`} fill={entry.color} />
+                              <Cell
+                                key={`cell-status-${index}`}
+                                fill={entry.color}
+                              />
                             ))}
                           </Pie>
                           <Tooltip />
@@ -429,7 +414,10 @@ export default function DashboardPage() {
                     </div>
                     <div className="grid grid-cols-2 gap-4 mt-4">
                       {deviceStatusData.map((item) => (
-                        <div key={item.name} className="flex items-center gap-2">
+                        <div
+                          key={item.name}
+                          className="flex items-center gap-2"
+                        >
                           <div
                             className="w-3 h-3 rounded-full"
                             style={{ backgroundColor: item.color }}
@@ -467,9 +455,14 @@ export default function DashboardPage() {
                             paddingAngle={5}
                             dataKey="value"
                           >
-                            {getTypeDistribution(topologyNodes).map((entry, index) => (
-                              <Cell key={`cell-type-${index}`} fill={entry.color} />
-                            ))}
+                            {getTypeDistribution(topologyNodes).map(
+                              (entry, index) => (
+                                <Cell
+                                  key={`cell-type-${index}`}
+                                  fill={entry.color}
+                                />
+                              )
+                            )}
                           </Pie>
                           <Tooltip />
                         </PieChart>
@@ -477,7 +470,10 @@ export default function DashboardPage() {
                     </div>
                     <div className="grid grid-cols-2 gap-4 mt-4">
                       {getTypeDistribution(topologyNodes).map((item) => (
-                        <div key={item.name} className="flex items-center gap-2">
+                        <div
+                          key={item.name}
+                          className="flex items-center gap-2"
+                        >
                           <div
                             className="w-3 h-3 rounded-full"
                             style={{ backgroundColor: item.color }}

@@ -1,8 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { Header } from "@/components/layout/header";
-import { Sidebar } from "@/components/layout/sidebar";
+import { useState } from "react"; 
 import {
   Card,
   CardContent,
@@ -88,10 +86,7 @@ export default function PerformancePage() {
     <div className="flex h-screen bg-background">
       {/* Sidebar removed: now handled by layout */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header
-          title="Performance Monitoring"
-          subtitle="Real-time network performance metrics and analytics"
-        />
+       
 
         <main className="flex-1 overflow-y-auto p-6">
           <div className="space-y-6">

@@ -1,32 +1,38 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Network } from "lucide-react"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Network } from "lucide-react";
 
 export default function LoginPage() {
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
-  })
+  });
 
   const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault()
-    const role = credentials.username.toLowerCase() === "admin" ? "admin" : "operator"
-    localStorage.setItem("userRole", role)
-    localStorage.setItem("username", credentials.username)
-    window.location.href = "/dashboard"
-  }
+    e.preventDefault();
+    const role =
+      credentials.username.toLowerCase() === "admin" ? "admin" : "operator";
+    localStorage.setItem("userRole", role);
+    localStorage.setItem("username", credentials.username);
+    window.location.href = "/dashboard";
+  };
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-8">
-        {/* Logo and Header */}
         <div className="text-center space-y-4">
           <div className="flex justify-center">
             <div className="p-3 bg-primary/10 rounded-lg">
@@ -34,8 +40,12 @@ export default function LoginPage() {
             </div>
           </div>
           <div>
-            <h1 className="text-2xl font-semibold text-foreground">Network Management System</h1>
-            <p className="text-muted-foreground mt-2">Sign in to manage your network infrastructure</p>
+            <h1 className="text-2xl font-semibold text-foreground">
+              Network Management System
+            </h1>
+            <p className="text-muted-foreground mt-2">
+              Sign in to manage your network infrastructure
+            </p>
           </div>
         </div>
 
@@ -43,7 +53,9 @@ export default function LoginPage() {
         <Card className="border-border">
           <CardHeader className="space-y-1">
             <CardTitle className="text-xl">Sign In</CardTitle>
-            <CardDescription>Enter your credentials to access the management console</CardDescription>
+            <CardDescription>
+              Enter your credentials to access the management console
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleLogin} className="space-y-4">
@@ -54,7 +66,9 @@ export default function LoginPage() {
                   type="text"
                   placeholder="Enter 'admin' for admin access or 'user' for operator"
                   value={credentials.username}
-                  onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
+                  onChange={(e) =>
+                    setCredentials({ ...credentials, username: e.target.value })
+                  }
                   className="bg-input border-border"
                   required
                 />
@@ -67,13 +81,18 @@ export default function LoginPage() {
                   type="password"
                   placeholder="Enter your password"
                   value={credentials.password}
-                  onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
+                  onChange={(e) =>
+                    setCredentials({ ...credentials, password: e.target.value })
+                  }
                   className="bg-input border-border"
                   required
                 />
               </div>
 
-              <Button type="submit" className="w-full bg-primary hover:bg-primary/90">
+              <Button
+                type="submit"
+                className="w-full bg-primary hover:bg-primary/90"
+              >
                 Sign In
               </Button>
             </form>
@@ -83,9 +102,11 @@ export default function LoginPage() {
         {/* Footer */}
         <div className="text-center text-sm text-muted-foreground">
           <p>Network Management System v2.1.0</p>
-          <p className="mt-1">Secure enterprise network monitoring and management</p>
+          <p className="mt-1">
+            Secure enterprise network monitoring and management
+          </p>
         </div>
       </div>
     </div>
-  )
+  );
 }

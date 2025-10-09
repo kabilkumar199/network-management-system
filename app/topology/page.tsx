@@ -1,30 +1,120 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Header } from "@/components/layout/header"
-import { Sidebar } from "@/components/layout/sidebar"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Network, Router, Server, Wifi, Search, ZoomIn, ZoomOut, RotateCcw, Download } from "lucide-react"
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Network,
+  Router,
+  Server,
+  Wifi,
+  Search,
+  ZoomIn,
+  ZoomOut,
+  RotateCcw,
+  Download,
+} from "lucide-react";
 
 export default function TopologyPage() {
-  const [viewMode, setViewMode] = useState("physical")
-  const [selectedDevice, setSelectedDevice] = useState<string | null>(null)
+  const [viewMode, setViewMode] = useState("physical");
+  const [selectedDevice, setSelectedDevice] = useState<string | null>(null);
 
   const devices = [
-    { id: "core-01", name: "Core Router 01", type: "router", status: "online", x: 400, y: 100 },
-    { id: "core-02", name: "Core Router 02", type: "router", status: "online", x: 600, y: 100 },
-    { id: "dist-01", name: "Distribution Switch 01", type: "switch", status: "online", x: 300, y: 250 },
-    { id: "dist-02", name: "Distribution Switch 02", type: "switch", status: "online", x: 500, y: 250 },
-    { id: "dist-03", name: "Distribution Switch 03", type: "switch", status: "online", x: 700, y: 250 },
-    { id: "access-01", name: "Access Switch 01", type: "switch", status: "online", x: 200, y: 400 },
-    { id: "access-02", name: "Access Switch 02", type: "switch", status: "warning", x: 400, y: 400 },
-    { id: "access-03", name: "Access Switch 03", type: "switch", status: "online", x: 600, y: 400 },
-    { id: "access-04", name: "Access Switch 04", type: "switch", status: "online", x: 800, y: 400 },
-    { id: "wifi-01", name: "WiFi Controller", type: "wireless", status: "online", x: 500, y: 550 },
-  ]
+    {
+      id: "core-01",
+      name: "Core Router 01",
+      type: "router",
+      status: "online",
+      x: 400,
+      y: 100,
+    },
+    {
+      id: "core-02",
+      name: "Core Router 02",
+      type: "router",
+      status: "online",
+      x: 600,
+      y: 100,
+    },
+    {
+      id: "dist-01",
+      name: "Distribution Switch 01",
+      type: "switch",
+      status: "online",
+      x: 300,
+      y: 250,
+    },
+    {
+      id: "dist-02",
+      name: "Distribution Switch 02",
+      type: "switch",
+      status: "online",
+      x: 500,
+      y: 250,
+    },
+    {
+      id: "dist-03",
+      name: "Distribution Switch 03",
+      type: "switch",
+      status: "online",
+      x: 700,
+      y: 250,
+    },
+    {
+      id: "access-01",
+      name: "Access Switch 01",
+      type: "switch",
+      status: "online",
+      x: 200,
+      y: 400,
+    },
+    {
+      id: "access-02",
+      name: "Access Switch 02",
+      type: "switch",
+      status: "warning",
+      x: 400,
+      y: 400,
+    },
+    {
+      id: "access-03",
+      name: "Access Switch 03",
+      type: "switch",
+      status: "online",
+      x: 600,
+      y: 400,
+    },
+    {
+      id: "access-04",
+      name: "Access Switch 04",
+      type: "switch",
+      status: "online",
+      x: 800,
+      y: 400,
+    },
+    {
+      id: "wifi-01",
+      name: "WiFi Controller",
+      type: "wireless",
+      status: "online",
+      x: 500,
+      y: 550,
+    },
+  ];
 
   const connections = [
     { from: "core-01", to: "core-02" },
@@ -39,40 +129,38 @@ export default function TopologyPage() {
     { from: "dist-03", to: "access-03" },
     { from: "dist-03", to: "access-04" },
     { from: "access-02", to: "wifi-01" },
-  ]
+  ];
 
   const getDeviceIcon = (type: string) => {
     switch (type) {
       case "router":
-        return Router
+        return Router;
       case "switch":
-        return Network
+        return Network;
       case "wireless":
-        return Wifi
+        return Wifi;
       default:
-        return Server
+        return Server;
     }
-  }
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "online":
-        return "bg-green-500"
+        return "bg-green-500";
       case "warning":
-        return "bg-yellow-500"
+        return "bg-yellow-500";
       case "critical":
-        return "bg-red-500"
+        return "bg-red-500";
       default:
-        return "bg-gray-500"
+        return "bg-gray-500";
     }
-  }
+  };
 
   return (
     <div className="flex h-screen bg-background">
-  {/* Sidebar removed: now handled by layout */}
+      {/* Sidebar removed: now handled by layout */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header title="Network Topology" subtitle="Visual representation of network infrastructure" />
-
         <div className="flex-1 p-6 overflow-auto">
           {/* Controls */}
           <div className="flex items-center justify-between mb-6">
@@ -121,16 +209,23 @@ export default function TopologyPage() {
               <Card>
                 <CardHeader>
                   <CardTitle>Network Topology Map</CardTitle>
-                  <CardDescription>Interactive network diagram showing device connections</CardDescription>
+                  <CardDescription>
+                    Interactive network diagram showing device connections
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="relative bg-muted/20 rounded-lg" style={{ height: "600px" }}>
+                  <div
+                    className="relative bg-muted/20 rounded-lg"
+                    style={{ height: "600px" }}
+                  >
                     <svg className="w-full h-full">
                       {/* Connections */}
                       {connections.map((conn, index) => {
-                        const fromDevice = devices.find((d) => d.id === conn.from)
-                        const toDevice = devices.find((d) => d.id === conn.to)
-                        if (!fromDevice || !toDevice) return null
+                        const fromDevice = devices.find(
+                          (d) => d.id === conn.from
+                        );
+                        const toDevice = devices.find((d) => d.id === conn.to);
+                        if (!fromDevice || !toDevice) return null;
 
                         return (
                           <line
@@ -143,12 +238,12 @@ export default function TopologyPage() {
                             strokeWidth="2"
                             className="opacity-60"
                           />
-                        )
+                        );
                       })}
 
                       {/* Devices */}
                       {devices.map((device) => {
-                        const Icon = getDeviceIcon(device.type)
+                        const Icon = getDeviceIcon(device.type);
                         return (
                           <g key={device.id}>
                             <circle
@@ -158,7 +253,11 @@ export default function TopologyPage() {
                               fill="hsl(var(--card))"
                               stroke="hsl(var(--border))"
                               strokeWidth="2"
-                              className={`cursor-pointer ${selectedDevice === device.id ? "stroke-primary stroke-4" : ""}`}
+                              className={`cursor-pointer ${
+                                selectedDevice === device.id
+                                  ? "stroke-primary stroke-4"
+                                  : ""
+                              }`}
                               onClick={() => setSelectedDevice(device.id)}
                             />
                             <foreignObject
@@ -177,7 +276,7 @@ export default function TopologyPage() {
                               className={getStatusColor(device.status)}
                             />
                           </g>
-                        )
+                        );
                       })}
                     </svg>
                   </div>
@@ -195,26 +294,39 @@ export default function TopologyPage() {
                   {selectedDevice ? (
                     <div className="space-y-4">
                       {(() => {
-                        const device = devices.find((d) => d.id === selectedDevice)
-                        if (!device) return null
-                        const Icon = getDeviceIcon(device.type)
+                        const device = devices.find(
+                          (d) => d.id === selectedDevice
+                        );
+                        if (!device) return null;
+                        const Icon = getDeviceIcon(device.type);
                         return (
                           <>
                             <div className="flex items-center gap-3">
                               <Icon className="h-8 w-8 text-primary" />
                               <div>
                                 <h3 className="font-semibold">{device.name}</h3>
-                                <p className="text-sm text-muted-foreground capitalize">{device.type}</p>
+                                <p className="text-sm text-muted-foreground capitalize">
+                                  {device.type}
+                                </p>
                               </div>
                             </div>
                             <div className="flex items-center gap-2">
-                              <div className={`w-3 h-3 rounded-full ${getStatusColor(device.status)}`} />
-                              <span className="text-sm capitalize">{device.status}</span>
+                              <div
+                                className={`w-3 h-3 rounded-full ${getStatusColor(
+                                  device.status
+                                )}`}
+                              />
+                              <span className="text-sm capitalize">
+                                {device.status}
+                              </span>
                             </div>
                             <div className="space-y-2 text-sm">
                               <div className="flex justify-between">
                                 <span>IP Address:</span>
-                                <span>192.168.1.{Math.floor(Math.random() * 254) + 1}</span>
+                                <span>
+                                  192.168.1.
+                                  {Math.floor(Math.random() * 254) + 1}
+                                </span>
                               </div>
                               <div className="flex justify-between">
                                 <span>MAC Address:</span>
@@ -227,16 +339,20 @@ export default function TopologyPage() {
                             </div>
                             <Button
                               className="w-full"
-                              onClick={() => (window.location.href = `/inventory/${selectedDevice}`)}
+                              onClick={() =>
+                                (window.location.href = `/inventory/${selectedDevice}`)
+                              }
                             >
                               View Details
                             </Button>
                           </>
-                        )
+                        );
                       })()}
                     </div>
                   ) : (
-                    <p className="text-muted-foreground text-sm">Click on a device to view details</p>
+                    <p className="text-muted-foreground text-sm">
+                      Click on a device to view details
+                    </p>
                   )}
                 </CardContent>
               </Card>
@@ -279,5 +395,5 @@ export default function TopologyPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Header } from "@/components/layout/header";
-import { Sidebar } from "@/components/layout/sidebar";
 import {
   Card,
   CardContent,
@@ -52,7 +50,6 @@ import {
 } from "lucide-react";
 import backups from "@/lib/mockBackups.json";
 export default function BackupsPage() {
-
   const [selectedBackup, setSelectedBackup] = useState<string | null>(null);
 
   const getStatusIcon = (status: string) => {
@@ -82,11 +79,6 @@ export default function BackupsPage() {
     <div className="flex h-screen bg-background">
       {/* Sidebar removed: now handled by layout */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header
-          title="Configuration Backups"
-          subtitle="Manage device configuration backups and restore points"
-        />
-
         <div className="flex-1 p-6 overflow-auto">
           {/* Inventory-style summary info bars */}
           <div className="flex flex-col md:flex-row gap-4 mb-6">
@@ -94,32 +86,48 @@ export default function BackupsPage() {
             <div className="flex items-center bg-blue-50 border border-blue-200 rounded-lg px-4 py-2 h-14 flex-1 min-w-0">
               <Database className="h-6 w-6 text-blue-500 mr-3" />
               <div className="flex flex-col justify-center min-w-0">
-                <span className="text-xs text-blue-700 font-medium leading-tight truncate">Total Backups</span>
-                <span className="text-lg font-bold text-blue-900 leading-tight truncate">{backups.length}</span>
+                <span className="text-xs text-blue-700 font-medium leading-tight truncate">
+                  Total Backups
+                </span>
+                <span className="text-lg font-bold text-blue-900 leading-tight truncate">
+                  {backups.length}
+                </span>
               </div>
             </div>
             {/* Completed */}
             <div className="flex items-center bg-green-50 border border-green-200 rounded-lg px-4 py-2 h-14 flex-1 min-w-0">
               <CheckCircle className="h-6 w-6 text-green-500 mr-3" />
               <div className="flex flex-col justify-center min-w-0">
-                <span className="text-xs text-green-700 font-medium leading-tight truncate">Completed</span>
-                <span className="text-lg font-bold text-green-900 leading-tight truncate">{backups.filter((b) => b.status === "completed").length}</span>
+                <span className="text-xs text-green-700 font-medium leading-tight truncate">
+                  Completed
+                </span>
+                <span className="text-lg font-bold text-green-900 leading-tight truncate">
+                  {backups.filter((b) => b.status === "completed").length}
+                </span>
               </div>
             </div>
             {/* Failed */}
             <div className="flex items-center bg-red-50 border border-red-200 rounded-lg px-4 py-2 h-14 flex-1 min-w-0">
               <XCircle className="h-6 w-6 text-red-500 mr-3" />
               <div className="flex flex-col justify-center min-w-0">
-                <span className="text-xs text-red-700 font-medium leading-tight truncate">Failed</span>
-                <span className="text-lg font-bold text-red-900 leading-tight truncate">{backups.filter((b) => b.status === "failed").length}</span>
+                <span className="text-xs text-red-700 font-medium leading-tight truncate">
+                  Failed
+                </span>
+                <span className="text-lg font-bold text-red-900 leading-tight truncate">
+                  {backups.filter((b) => b.status === "failed").length}
+                </span>
               </div>
             </div>
             {/* Running */}
             <div className="flex items-center bg-blue-100 border border-blue-200 rounded-lg px-4 py-2 h-14 flex-1 min-w-0">
               <Clock className="h-6 w-6 text-blue-600 mr-3" />
               <div className="flex flex-col justify-center min-w-0">
-                <span className="text-xs text-blue-700 font-medium leading-tight truncate">Running</span>
-                <span className="text-lg font-bold text-blue-900 leading-tight truncate">{backups.filter((b) => b.status === "running").length}</span>
+                <span className="text-xs text-blue-700 font-medium leading-tight truncate">
+                  Running
+                </span>
+                <span className="text-lg font-bold text-blue-900 leading-tight truncate">
+                  {backups.filter((b) => b.status === "running").length}
+                </span>
               </div>
             </div>
           </div>

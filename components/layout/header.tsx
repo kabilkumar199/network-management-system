@@ -29,7 +29,7 @@ interface HeaderProps {
   subtitle?: string;
 }
 
-export function Header({ title, subtitle }: HeaderProps) {
+export default function Header({ title, subtitle }: HeaderProps) {
   const { theme, setTheme, systemTheme } = useTheme();
   const [username, setUsername] = useState("Admin");
 

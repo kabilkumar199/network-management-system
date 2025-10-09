@@ -1,16 +1,20 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { Header } from "@/components/layout/header"
-import { Sidebar } from "@/components/layout/sidebar"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Switch } from "@/components/ui/switch"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { User, Shield, Key, Activity } from "lucide-react"
+import { useState, useEffect } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { User, Shield, Key, Activity } from "lucide-react";
 
 export default function ProfilePage() {
   const [userInfo, setUserInfo] = useState({
@@ -22,7 +26,7 @@ export default function ProfilePage() {
     role: "Administrator",
     department: "IT Operations",
     bio: "Network infrastructure specialist with 10+ years of experience managing enterprise networks.",
-  })
+  });
 
   const [notifications, setNotifications] = useState({
     emailAlerts: true,
@@ -30,37 +34,34 @@ export default function ProfilePage() {
     desktopNotifications: true,
     weeklyReports: true,
     maintenanceAlerts: true,
-  })
+  });
 
   useEffect(() => {
-    const storedUsername = localStorage.getItem("username") || "admin"
-    const role = localStorage.getItem("userRole") || "admin"
+    const storedUsername = localStorage.getItem("username") || "admin";
+    const role = localStorage.getItem("userRole") || "admin";
     setUserInfo((prev) => ({
       ...prev,
       username: storedUsername,
       role: role === "admin" ? "Administrator" : "Operator",
-    }))
-  }, [])
+    }));
+  }, []);
 
   const handleSaveProfile = () => {
     // Save profile logic here
-    alert("Profile updated successfully!")
-  }
+    alert("Profile updated successfully!");
+  };
 
   const handleChangePassword = () => {
     // Change password logic here
-    alert("Password change functionality would be implemented here")
-  }
+    alert("Password change functionality would be implemented here");
+  };
 
   return (
     <div className="flex h-screen bg-background">
-  {/* Sidebar removed: now handled by layout */}
+      {/* Sidebar removed: now handled by layout */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header title="User Profile" subtitle="Manage your account settings and preferences" />
-
         <main className="flex-1 overflow-y-auto p-6">
           <div className="max-w-4xl mx-auto space-y-6">
-            {/* Profile Header */}
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center gap-6">
@@ -72,11 +73,15 @@ export default function ProfilePage() {
                     <p className="text-muted-foreground">
                       {userInfo.role} • {userInfo.department}
                     </p>
-                    <p className="text-sm text-muted-foreground mt-1">Last login: Today at 9:30 AM</p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Last login: Today at 9:30 AM
+                    </p>
                   </div>
                   <div className="flex items-center gap-2">
                     <Shield className="h-5 w-5 text-green-500" />
-                    <span className="text-sm text-green-500">Account Verified</span>
+                    <span className="text-sm text-green-500">
+                      Account Verified
+                    </span>
                   </div>
                 </div>
               </CardContent>
@@ -94,7 +99,9 @@ export default function ProfilePage() {
                 <Card>
                   <CardHeader>
                     <CardTitle>Personal Information</CardTitle>
-                    <CardDescription>Update your personal details and contact information</CardDescription>
+                    <CardDescription>
+                      Update your personal details and contact information
+                    </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
@@ -103,7 +110,12 @@ export default function ProfilePage() {
                         <Input
                           id="username"
                           value={userInfo.username}
-                          onChange={(e) => setUserInfo({ ...userInfo, username: e.target.value })}
+                          onChange={(e) =>
+                            setUserInfo({
+                              ...userInfo,
+                              username: e.target.value,
+                            })
+                          }
                         />
                       </div>
                       <div>
@@ -112,7 +124,9 @@ export default function ProfilePage() {
                           id="email"
                           type="email"
                           value={userInfo.email}
-                          onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })}
+                          onChange={(e) =>
+                            setUserInfo({ ...userInfo, email: e.target.value })
+                          }
                         />
                       </div>
                     </div>
@@ -123,7 +137,12 @@ export default function ProfilePage() {
                         <Input
                           id="fullName"
                           value={userInfo.fullName}
-                          onChange={(e) => setUserInfo({ ...userInfo, fullName: e.target.value })}
+                          onChange={(e) =>
+                            setUserInfo({
+                              ...userInfo,
+                              fullName: e.target.value,
+                            })
+                          }
                         />
                       </div>
                       <div>
@@ -131,7 +150,9 @@ export default function ProfilePage() {
                         <Input
                           id="phone"
                           value={userInfo.phone}
-                          onChange={(e) => setUserInfo({ ...userInfo, phone: e.target.value })}
+                          onChange={(e) =>
+                            setUserInfo({ ...userInfo, phone: e.target.value })
+                          }
                         />
                       </div>
                     </div>
@@ -142,7 +163,12 @@ export default function ProfilePage() {
                         <Input
                           id="location"
                           value={userInfo.location}
-                          onChange={(e) => setUserInfo({ ...userInfo, location: e.target.value })}
+                          onChange={(e) =>
+                            setUserInfo({
+                              ...userInfo,
+                              location: e.target.value,
+                            })
+                          }
                         />
                       </div>
                       <div>
@@ -150,7 +176,12 @@ export default function ProfilePage() {
                         <Input
                           id="department"
                           value={userInfo.department}
-                          onChange={(e) => setUserInfo({ ...userInfo, department: e.target.value })}
+                          onChange={(e) =>
+                            setUserInfo({
+                              ...userInfo,
+                              department: e.target.value,
+                            })
+                          }
                         />
                       </div>
                     </div>
@@ -160,7 +191,9 @@ export default function ProfilePage() {
                       <Textarea
                         id="bio"
                         value={userInfo.bio}
-                        onChange={(e) => setUserInfo({ ...userInfo, bio: e.target.value })}
+                        onChange={(e) =>
+                          setUserInfo({ ...userInfo, bio: e.target.value })
+                        }
                         rows={3}
                       />
                     </div>
@@ -174,7 +207,9 @@ export default function ProfilePage() {
                 <Card>
                   <CardHeader>
                     <CardTitle>Security Settings</CardTitle>
-                    <CardDescription>Manage your account security and authentication</CardDescription>
+                    <CardDescription>
+                      Manage your account security and authentication
+                    </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <div className="space-y-4">
@@ -183,10 +218,15 @@ export default function ProfilePage() {
                           <Key className="h-5 w-5 text-muted-foreground" />
                           <div>
                             <h4 className="font-medium">Password</h4>
-                            <p className="text-sm text-muted-foreground">Last changed 30 days ago</p>
+                            <p className="text-sm text-muted-foreground">
+                              Last changed 30 days ago
+                            </p>
                           </div>
                         </div>
-                        <Button variant="outline" onClick={handleChangePassword}>
+                        <Button
+                          variant="outline"
+                          onClick={handleChangePassword}
+                        >
                           Change Password
                         </Button>
                       </div>
@@ -195,8 +235,12 @@ export default function ProfilePage() {
                         <div className="flex items-center gap-3">
                           <Shield className="h-5 w-5 text-muted-foreground" />
                           <div>
-                            <h4 className="font-medium">Two-Factor Authentication</h4>
-                            <p className="text-sm text-muted-foreground">Add an extra layer of security</p>
+                            <h4 className="font-medium">
+                              Two-Factor Authentication
+                            </h4>
+                            <p className="text-sm text-muted-foreground">
+                              Add an extra layer of security
+                            </p>
                           </div>
                         </div>
                         <Button variant="outline">Enable 2FA</Button>
@@ -207,7 +251,9 @@ export default function ProfilePage() {
                           <Activity className="h-5 w-5 text-muted-foreground" />
                           <div>
                             <h4 className="font-medium">Active Sessions</h4>
-                            <p className="text-sm text-muted-foreground">Manage your active login sessions</p>
+                            <p className="text-sm text-muted-foreground">
+                              Manage your active login sessions
+                            </p>
                           </div>
                         </div>
                         <Button variant="outline">View Sessions</Button>
@@ -221,41 +267,62 @@ export default function ProfilePage() {
                 <Card>
                   <CardHeader>
                     <CardTitle>Notification Preferences</CardTitle>
-                    <CardDescription>Choose how you want to receive notifications</CardDescription>
+                    <CardDescription>
+                      Choose how you want to receive notifications
+                    </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
                         <div className="space-y-0.5">
                           <Label>Email Alerts</Label>
-                          <p className="text-sm text-muted-foreground">Receive alerts via email</p>
+                          <p className="text-sm text-muted-foreground">
+                            Receive alerts via email
+                          </p>
                         </div>
                         <Switch
                           checked={notifications.emailAlerts}
-                          onCheckedChange={(checked) => setNotifications({ ...notifications, emailAlerts: checked })}
+                          onCheckedChange={(checked) =>
+                            setNotifications({
+                              ...notifications,
+                              emailAlerts: checked,
+                            })
+                          }
                         />
                       </div>
 
                       <div className="flex items-center justify-between">
                         <div className="space-y-0.5">
                           <Label>SMS Alerts</Label>
-                          <p className="text-sm text-muted-foreground">Receive critical alerts via SMS</p>
+                          <p className="text-sm text-muted-foreground">
+                            Receive critical alerts via SMS
+                          </p>
                         </div>
                         <Switch
                           checked={notifications.smsAlerts}
-                          onCheckedChange={(checked) => setNotifications({ ...notifications, smsAlerts: checked })}
+                          onCheckedChange={(checked) =>
+                            setNotifications({
+                              ...notifications,
+                              smsAlerts: checked,
+                            })
+                          }
                         />
                       </div>
 
                       <div className="flex items-center justify-between">
                         <div className="space-y-0.5">
                           <Label>Desktop Notifications</Label>
-                          <p className="text-sm text-muted-foreground">Show notifications in browser</p>
+                          <p className="text-sm text-muted-foreground">
+                            Show notifications in browser
+                          </p>
                         </div>
                         <Switch
                           checked={notifications.desktopNotifications}
                           onCheckedChange={(checked) =>
-                            setNotifications({ ...notifications, desktopNotifications: checked })
+                            setNotifications({
+                              ...notifications,
+                              desktopNotifications: checked,
+                            })
                           }
                         />
                       </div>
@@ -263,23 +330,35 @@ export default function ProfilePage() {
                       <div className="flex items-center justify-between">
                         <div className="space-y-0.5">
                           <Label>Weekly Reports</Label>
-                          <p className="text-sm text-muted-foreground">Receive weekly network summary reports</p>
+                          <p className="text-sm text-muted-foreground">
+                            Receive weekly network summary reports
+                          </p>
                         </div>
                         <Switch
                           checked={notifications.weeklyReports}
-                          onCheckedChange={(checked) => setNotifications({ ...notifications, weeklyReports: checked })}
+                          onCheckedChange={(checked) =>
+                            setNotifications({
+                              ...notifications,
+                              weeklyReports: checked,
+                            })
+                          }
                         />
                       </div>
 
                       <div className="flex items-center justify-between">
                         <div className="space-y-0.5">
                           <Label>Maintenance Alerts</Label>
-                          <p className="text-sm text-muted-foreground">Get notified about scheduled maintenance</p>
+                          <p className="text-sm text-muted-foreground">
+                            Get notified about scheduled maintenance
+                          </p>
                         </div>
                         <Switch
                           checked={notifications.maintenanceAlerts}
                           onCheckedChange={(checked) =>
-                            setNotifications({ ...notifications, maintenanceAlerts: checked })
+                            setNotifications({
+                              ...notifications,
+                              maintenanceAlerts: checked,
+                            })
                           }
                         />
                       </div>
@@ -294,24 +373,53 @@ export default function ProfilePage() {
                 <Card>
                   <CardHeader>
                     <CardTitle>Recent Activity</CardTitle>
-                    <CardDescription>Your recent actions and system interactions</CardDescription>
+                    <CardDescription>
+                      Your recent actions and system interactions
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
                       {[
-                        { action: "Logged in", time: "2 minutes ago", details: "From 192.168.1.100" },
-                        { action: "Viewed device details", time: "15 minutes ago", details: "Core-Router-01" },
-                        { action: "Downloaded configuration", time: "1 hour ago", details: "Switch-Floor-03" },
-                        { action: "Updated user profile", time: "2 hours ago", details: "Changed contact information" },
-                        { action: "Created backup job", time: "1 day ago", details: "Daily Config Backup" },
+                        {
+                          action: "Logged in",
+                          time: "2 minutes ago",
+                          details: "From 192.168.1.100",
+                        },
+                        {
+                          action: "Viewed device details",
+                          time: "15 minutes ago",
+                          details: "Core-Router-01",
+                        },
+                        {
+                          action: "Downloaded configuration",
+                          time: "1 hour ago",
+                          details: "Switch-Floor-03",
+                        },
+                        {
+                          action: "Updated user profile",
+                          time: "2 hours ago",
+                          details: "Changed contact information",
+                        },
+                        {
+                          action: "Created backup job",
+                          time: "1 day ago",
+                          details: "Daily Config Backup",
+                        },
                       ].map((activity, index) => (
-                        <div key={index} className="flex items-center gap-4 p-3 border rounded-lg">
+                        <div
+                          key={index}
+                          className="flex items-center gap-4 p-3 border rounded-lg"
+                        >
                           <div className="h-2 w-2 bg-primary rounded-full" />
                           <div className="flex-1">
                             <p className="font-medium">{activity.action}</p>
-                            <p className="text-sm text-muted-foreground">{activity.details}</p>
+                            <p className="text-sm text-muted-foreground">
+                              {activity.details}
+                            </p>
                           </div>
-                          <span className="text-sm text-muted-foreground">{activity.time}</span>
+                          <span className="text-sm text-muted-foreground">
+                            {activity.time}
+                          </span>
                         </div>
                       ))}
                     </div>
@@ -323,5 +431,5 @@ export default function ProfilePage() {
         </main>
       </div>
     </div>
-  )
+  );
 }
